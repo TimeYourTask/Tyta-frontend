@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 services:
   reactjs:
     container_name: time_your_task_front
