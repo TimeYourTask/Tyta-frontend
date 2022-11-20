@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import './App.scss';
 
 function App() {
   const { message } = useSelector(state => state.init)
