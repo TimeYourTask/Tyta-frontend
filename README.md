@@ -19,7 +19,7 @@ Our vision is to help project managers and team members understand the issues th
 
 ## Our famous secret: 2 minutes and it's ready!
 
-*Yes, we are talking about a web project and not Panzanie 2 minutes pasta*
+*Yes, we are talking about a web project and not Panzani 2 minutes pasta*
 
 ### - Prerequisites
 
