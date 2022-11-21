@@ -24,6 +24,7 @@ module.exports = {
     },
   },
   rules: {
+    'object-curly-newline': 'off',
     'require-yield': 'off',
     'prefer-const': 'error',
     'prefer-rest-params': 'error',
