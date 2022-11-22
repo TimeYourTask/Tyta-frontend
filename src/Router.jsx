@@ -1,19 +1,20 @@
 import React from 'react';
 
 import { Navigate, useRoutes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import DefaultLayout from './Components/Layouts/Default/Default.layout';
+import Home from './Pages/Home/Home';
 
 const Router = () => {
-  const { message } = useSelector((state) => state.init);
+  // const { message } = useSelector((state) => state.init);
 
   const mainRoutes = [
     {
       path: '/',
       element: <DefaultLayout />,
       children: [
-        { path: '', element: <h1>{message}</h1> },
+        { path: '', element: <Home /> },
         // { path: 'register', element: <Register /> },
         // { path: 'login', element: <Login /> },
       ],
