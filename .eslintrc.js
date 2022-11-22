@@ -55,5 +55,12 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'react/no-unescaped-entities': 'off',
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
   },
 };
