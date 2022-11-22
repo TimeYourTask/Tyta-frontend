@@ -4,7 +4,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
 import DefaultLayout from './components/Layouts/Default/Default.layout';
-import Home from './Pages/Home/Home';
+import Home from './pages/Home/Home';
 
 const Router = () => {
   // const { message } = useSelector((state) => state.init);
