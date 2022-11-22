@@ -3,7 +3,6 @@ import './App.scss';
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Navigate, Route, Routes } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
 
 import Header from './components/Header/Header';
