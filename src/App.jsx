@@ -2,7 +2,7 @@ import './App.scss';
 
 import React from 'react';
 
-import Header from './Components/Sections/Header/Header';
+import Header from './components/Sections/Header/Header';
 import Router from './Router';
 
 const App = () => (

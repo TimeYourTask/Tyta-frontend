@@ -3,7 +3,7 @@ import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
-import DefaultLayout from './Components/Layouts/Default/Default.layout';
+import DefaultLayout from './components/Layouts/Default/Default.layout';
 import Home from './Pages/Home/Home';
 
 const Router = () => {
