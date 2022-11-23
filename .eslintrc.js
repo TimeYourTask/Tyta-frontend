@@ -51,6 +51,7 @@ module.exports = {
         objects: 'always-multiline',
       },
     ],
+    'operator-linebreak': ['error', 'after', { overrides: { '&&': 'after' } }],
 
     'react/display-name': 'off',
     'react/prop-types': 'off',
@@ -62,5 +63,7 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'react/jsx-wrap-multilines': ['error', { prop: false }],
+    'react/jsx-props-no-spreading': 'off',
   },
 };
