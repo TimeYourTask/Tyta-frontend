@@ -6,6 +6,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DefaultLayout from './components/Layouts/Default/Default.layout';
 import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import Home from './pages/Home/Home';
+import NotFound from './pages/NotFound/NotFound';
 
 const Router = () => {
   // const { message } = useSelector((state) => state.init);
@@ -18,6 +19,7 @@ const Router = () => {
         { path: '', element: <Home /> },
         // { path: 'register', element: <Register /> },
         // { path: 'login', element: <Login /> },
+        { path: '404', element: <NotFound /> },
       ],
     },
     {
@@ -25,7 +27,6 @@ const Router = () => {
       element: <ConnectedLayout />,
       children: [{ path: '', element: <Home /> }],
     },
-    { path: '404', element: <h1>Not found</h1> },
     { path: '*', element: <Navigate to="/404" replace /> },
   ];
 
