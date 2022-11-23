@@ -4,6 +4,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
 import DefaultLayout from './components/Layouts/Default/Default.layout';
+import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import Home from './pages/Home/Home';
 
 const Router = () => {
@@ -18,6 +19,11 @@ const Router = () => {
         // { path: 'register', element: <Register /> },
         // { path: 'login', element: <Login /> },
       ],
+    },
+    {
+      path: '/team',
+      element: <ConnectedLayout />,
+      children: [{ path: '', element: <Home /> }],
     },
     { path: '404', element: <h1>Not found</h1> },
     { path: '*', element: <Navigate to="/404" replace /> },
