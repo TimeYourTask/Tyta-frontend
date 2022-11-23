@@ -2,38 +2,53 @@ import './Footer.scss';
 
 import React from 'react';
 
-import { Paper, Container, Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <Paper
     sx={{
-      marginTop: 'calc(10% + 60px)',
-      position: 'fixed',
-      bottom: 0,
       width: '100%',
+      display: 'flex',
+      gap: 2,
+      justifyContent: { xs: 'center', sm: 'space-between' },
+      boxSizing: 'border-box',
+      position: 'fixed',
+      flexWrap: 'wrap',
+      bottom: 0,
+      py: 1,
+      px: 4,
     }}
     component="footer"
     square
     variant="outlined"
   >
-    <Container maxWidth="lg">
-      <Box
-        sx={{
-          flexGrow: 1,
-          justifyContent: 'center',
-          display: 'flex',
-          my: 1,
-        }}
-      >
-        <div>
-          <Typography variant="caption" color="initial">
-            <Link to="/">TimeYourTask © 2022</Link>
-          </Typography>
-        </div>
-      </Box>
-    </Container>
+    <Box
+      sx={{
+        justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <Typography variant="caption" color="grey.500">
+        <Link to="/">TimeYourTask © 2022</Link>
+      </Typography>
+    </Box>
+    <Typography
+      variant="overline"
+      color="grey.500"
+      sx={{
+        justifyContent: { xs: 'center', sm: 'right' },
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 3,
+      }}
+    >
+      <Link to="/">Contact us</Link>
+      <Link to="/">Terms and policies</Link>
+      <Link to="/">Sitemap</Link>
+    </Typography>
   </Paper>
 );
 
