@@ -117,7 +117,9 @@ const ToolBar = () => {
                   sx={{
                     mr: -1,
                     opacity: 1,
-                    transform: open ? 'rotate(-180deg)' : 'rotate(0)',
+                    transform: open.includes(menu.ROADMAP)
+                      ? 'rotate(-180deg)'
+                      : 'rotate(0)',
                     transition: '0.2s',
                   }}
                 />

@@ -51,7 +51,11 @@ module.exports = {
         objects: 'always-multiline',
       },
     ],
-    'operator-linebreak': ['error', 'after', { overrides: { '&&': 'after' } }],
+    'operator-linebreak': [
+      'error',
+      'after',
+      { overrides: { '&&': 'after', '?': 'before', ':': 'before' } },
+    ],
 
     'react/display-name': 'off',
     'react/prop-types': 'off',
