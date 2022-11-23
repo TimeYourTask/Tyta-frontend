@@ -3,27 +3,24 @@ import './Header.scss';
 import React from 'react';
 
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
 
 const Header = () => (
-  <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static">
-      <Toolbar>
-        <Typography
-          variant="h6"
-          component="h1"
-          sx={{ flexGrow: 1, cursor: 'pointer' }}
-        >
-          <Link to="/">TimeYourTask</Link>
-        </Typography>
+  <AppBar position="static">
+    <Toolbar>
+      <Typography
+        variant="h6"
+        component="h1"
+        sx={{ flexGrow: 1, cursor: 'pointer' }}
+      >
+        <Link to="/">TimeYourTask</Link>
+      </Typography>
 
-        <Link to="/login">
-          <Button color="inherit">Login</Button>
-        </Link>
-      </Toolbar>
-    </AppBar>
-  </Box>
+      <Link to="/login">
+        <Button color="inherit">Login</Button>
+      </Link>
+    </Toolbar>
+  </AppBar>
 );
 
 export default Header;
