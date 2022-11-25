@@ -51,9 +51,23 @@ module.exports = {
         objects: 'always-multiline',
       },
     ],
+    'operator-linebreak': [
+      'error',
+      'after',
+      { overrides: { '&&': 'after', '?': 'before', ':': 'before' } },
+    ],
 
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'react/no-unescaped-entities': 'off',
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    'react/jsx-wrap-multilines': ['error', { prop: false }],
+    'react/jsx-props-no-spreading': 'off',
   },
 };

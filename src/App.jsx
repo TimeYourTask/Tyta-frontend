@@ -1,25 +1,30 @@
 import './App.scss';
 
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 
-import Header from './components/Header/Header';
+import Header from './components/Sections/Header/Header';
+import Footer from './components/Sections/Footer/Footer';
+import Router from './Router';
 
-function App() {
-  const { message } = useSelector((state) => state.init);
+import lightTheme from './themes/light';
+
+const App = () => {
+  const [mode] = React.useState('light');
+
+  const theme = React.useMemo(
+    () => createTheme(mode === 'light' ? lightTheme : lightTheme),
+    [mode]
+  );
 
   return (
-    <>
-      <CssBaseline />
+    <ThemeProvider theme={theme}>
       <Header />
-      <Routes>
-        <Route path="/" element={<h1>{message}</h1>} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </>
+      <Router />
+      <Footer />
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
