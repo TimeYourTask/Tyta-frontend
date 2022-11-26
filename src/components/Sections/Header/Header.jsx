@@ -1,26 +1,127 @@
 import './Header.scss';
 
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Button,
+  Toolbar,
+  Typography,
+  Menu,
+  MenuItem,
+  IconButton,
+  Box,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+const pages = [
+  {
+    key: 'login',
+    label: 'Login',
+    target: '/login',
+  },
+  {
+    key: 'register',
+    label: 'Create an account',
+    target: '/register',
+  },
+];
 
-const Header = () => (
-  <AppBar position="static">
-    <Toolbar>
-      <Typography
-        variant="h6"
-        component="h1"
-        sx={{ flexGrow: 1, cursor: 'pointer' }}
-      >
-        <Link to="/">TimeYourTask</Link>
-      </Typography>
+const Header = () => {
+  const navigate = useNavigate();
 
-      <Link to="/login">
-        <Button color="inherit">Login</Button>
-      </Link>
-    </Toolbar>
-  </AppBar>
-);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = (target) => {
+    setAnchorElNav(null);
+    navigate(target);
+  };
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography
+          variant="h6"
+          component="h1"
+          sx={{ flexGrow: 1, cursor: 'pointer' }}
+        >
+          <Link to="/">TimeYourTask</Link>
+        </Typography>
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: { xs: 'flex', md: 'none' },
+            justifyContent: 'flex-end',
+          }}
+        >
+          <IconButton
+            size="large"
+            aria-label="Open navigation menu"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+            }}
+          >
+            {pages.map((page) => (
+              <MenuItem
+                key={page.key}
+                onClick={() => handleCloseNavMenu(page.target)}
+              >
+                <Typography textAlign="center">{page.label}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: { xs: 'none', md: 'flex' },
+            justifyContent: 'flex-end',
+            gap: 2,
+          }}
+        >
+          {pages.map((page, key) => (
+            <Button
+              key={page.key}
+              onClick={() => handleCloseNavMenu(page.target)}
+              sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+                borderColor: pages.length - 1 === key ? 'white' : '',
+              }}
+              variant="outlined"
+            >
+              {page.label}
+            </Button>
+          ))}
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
 export default Header;
