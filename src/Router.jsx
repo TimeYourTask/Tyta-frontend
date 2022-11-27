@@ -1,17 +1,15 @@
 import React from 'react';
 
 import { Navigate, useRoutes } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 
 import DefaultLayout from './components/Layouts/Default/Default.layout';
 import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
 import Forbidden from './pages/Forbidden/Forbidden';
+import RequireAuth from './components/Auth/RequireAuth';
 
 const Router = () => {
-  // const { message } = useSelector((state) => state.init);
-
   const mainRoutes = [
     {
       path: '/',
@@ -26,7 +24,11 @@ const Router = () => {
     },
     {
       path: '/team',
-      element: <ConnectedLayout />,
+      element: (
+        <RequireAuth>
+          <ConnectedLayout />
+        </RequireAuth>
+      ),
       children: [{ path: '', element: <Home /> }],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
