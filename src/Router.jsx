@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound/NotFound';
 import Forbidden from './pages/Forbidden/Forbidden';
 import Login from './pages/Login/Login';
 import RequireAuth from './components/Auth/RequireAuth';
+import Register from './pages/Register/Register';
 
 const Router = () => {
   const mainRoutes = [
@@ -17,8 +18,8 @@ const Router = () => {
       element: <DefaultLayout />,
       children: [
         { path: '', element: <Home /> },
-        // { path: 'register', element: <Register /> },
         { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '500', element: <Forbidden /> },
       ],
