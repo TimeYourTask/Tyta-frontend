@@ -6,6 +6,7 @@ import DefaultLayout from './components/Layouts/Default/Default.layout';
 import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
+import Forbidden from './pages/Forbidden/Forbidden';
 import RequireAuth from './components/Auth/RequireAuth';
 
 const Router = () => {
@@ -18,6 +19,7 @@ const Router = () => {
         // { path: 'register', element: <Register /> },
         // { path: 'login', element: <Login /> },
         { path: '404', element: <NotFound /> },
+        { path: '500', element: <Forbidden /> },
       ],
     },
     {
