@@ -35,11 +35,10 @@ const Register = () => {
       ...values,
       [name]: name === 'cgu' ? event.target.checked : event.target.value,
     });
-    console.log(values);
   };
 
   const showPassword = () => {
-    setValues({ showPassword: !values.showPassword });
+    setValues({ ...values, showPassword: !values.showPassword });
   };
 
   const handleSubmitForm = (event) => {
