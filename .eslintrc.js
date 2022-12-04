@@ -69,5 +69,6 @@ module.exports = {
     ],
     'react/jsx-wrap-multilines': ['error', { prop: false }],
     'react/jsx-props-no-spreading': 'off',
+    'prettier/prettier': 'off',
   },
 };
