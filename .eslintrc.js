@@ -62,6 +62,7 @@ module.exports = {
         patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*'],
       },
     ],
+    'default-param-last': 0,
 
     'react/display-name': 'off',
     'react/prop-types': 'off',
