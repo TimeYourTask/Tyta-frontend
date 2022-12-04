@@ -1,6 +1,7 @@
 import './Register.scss';
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   FormControl,
   Grid,
@@ -22,10 +23,12 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
+import { register } from '../../api/user.api';
 
 import RegisterImg from '../../assets/register.webp';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [values, setValues] = React.useState({
     showPassword: false,
   });
@@ -41,10 +44,17 @@ const Register = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
-  const handleSubmitForm = (event) => {
+  const handleSubmitForm = async (event) => {
     event.preventDefault();
-
-    // TODO: Create account in database through the API
+    const registerReq = await register(
+      values.email,
+      values.password,
+      values.firstname,
+      values.lastname
+    );
+    console.log(registerReq);
+    // TO DO Create pop up advertising error
+    navigate('/login');
     console.log(values, event);
   };
 

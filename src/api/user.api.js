@@ -13,3 +13,9 @@ export const resetPassword = async (tokenId, token, newPassword) => axios
   })
   .then((res) => res)
   .catch((err) => err);
+export const register = async (email, password, firstname, lastname) => axios
+  .post('/register', { email, password, firstname, lastname })
+  .then((res) => res)
+  .catch((err) => err);
+
+export const login = () => {};
