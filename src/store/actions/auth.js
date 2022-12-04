@@ -5,6 +5,8 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   SET_NOTIFICATION,
+  REQUEST_RESET_PASSWORD_SUCCESS,
+  REQUEST_RESET_PASSWORD_FAILED,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
 } from './types';
@@ -95,11 +97,10 @@ export const login =
   );
 
 export const requestResetPassword =
-  (email) => (dispatch) => AuthService.login(email).then(
-    (data) => {
+  (email) => (dispatch) => AuthService.requestResetPassword(email).then(
+    () => {
       dispatch({
-        type: RESET_PASSWORD_SUCCESS,
-        payload: { user: data },
+        type: REQUEST_RESET_PASSWORD_SUCCESS,
       });
 
       dispatch({
@@ -121,7 +122,7 @@ export const requestResetPassword =
           error.toString();
 
       dispatch({
-        type: RESET_PASSWORD_FAILED,
+        type: REQUEST_RESET_PASSWORD_FAILED,
       });
 
       dispatch({
@@ -136,6 +137,47 @@ export const requestResetPassword =
     }
   );
 
+export const resetPassword =
+  // eslint-disable-next-line max-len
+  ({ tokenId, token, newPassword }) => (dispatch) => AuthService.resetPassword({ tokenId, token, newPassword }).then(
+    () => {
+      dispatch({
+        type: RESET_PASSWORD_SUCCESS,
+      });
+
+      dispatch({
+        type: SET_NOTIFICATION,
+        payload: {
+          message: 'Password successfully change, please login with your new password!',
+          type: 'success',
+        },
+      });
+
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+      dispatch({
+        type: RESET_PASSWORD_FAILED,
+      });
+
+      dispatch({
+        type: SET_NOTIFICATION,
+        payload: {
+          message,
+          type: 'error',
+        },
+      });
+
+      return Promise.reject();
+    }
+  );
 export const logout = () => (dispatch) => {
   AuthService.logout();
 

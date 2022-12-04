@@ -20,6 +20,12 @@ const login = (email, password) => axiosInstance
 
 const requestResetPassword = (email) => axiosInstance.post('/reset-password', { email }).then((res) => res.data);
 
+const resetPassword = ({ tokenId, token, newPassword }) => axiosInstance
+  .post(`/reset-password/${tokenId}/${token}`, {
+    password: newPassword,
+  })
+  .then((res) => res.data);
+
 const logout = () => {
   localStorage.removeItem('user');
 };
@@ -28,5 +34,6 @@ export default {
   register,
   login,
   requestResetPassword,
+  resetPassword,
   logout,
 };
