@@ -7,8 +7,8 @@ export const sendEmailToResetPassword = async (email) => axios
   .then((res) => res)
   .catch((err) => err);
 
-export const resetPassword = async (userId, token, newPassword) => axios
-  .post(`/reset-password/${userId}/${token}`, {
+export const resetPassword = async (tokenId, token, newPassword) => axios
+  .post(`/reset-password/${tokenId}/${token}`, {
     password: newPassword,
   })
   .then((res) => res)

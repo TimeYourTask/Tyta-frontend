@@ -43,16 +43,16 @@ const ResetPassword = () => {
   const handleSubmitForm = async (event) => {
     event.preventDefault();
     const token = searchParams.get('token');
-    const userId = searchParams.get('id');
+    const tokenId = searchParams.get('id');
 
-    if (!token || !token) {
+    if (!token || !tokenId) {
       const sendEmail = await sendEmailToResetPassword(values.email);
       console.log(sendEmail);
       // TODO: send alert to global app before redirection to say to user "Check your email"
       navigate('/');
     } else {
       const resetPasswordReq = await resetPassword(
-        userId,
+        tokenId,
         token,
         values.password
       );
