@@ -1,0 +1,9 @@
+.advantages {
+  list-style: none;
+  margin: 0;
+}
+
+.advantages li:before {
+  content: '✓';
+  margin-right: 10px;
+}
