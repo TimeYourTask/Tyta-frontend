@@ -1,6 +1,9 @@
 import './Login.scss';
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   FormControl,
   Grid,
@@ -14,6 +17,7 @@ import {
   InputLabel,
   IconButton,
   OutlinedInput,
+  Link,
 } from '@mui/material';
 import {
   Email as EmailIcon,
@@ -22,10 +26,21 @@ import {
 } from '@mui/icons-material';
 
 import LoginImg from '../../assets/login.webp';
+import { login } from '../../store/actions/auth';
 
 const Login = () => {
   const [values, setValues] = React.useState({
     showPassword: false,
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/overview');
+    }
   });
 
   const handleChange = (name) => (event) => {
@@ -39,19 +54,23 @@ const Login = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
-  const handleSubmitForm = (event) => {
-    event.preventDefault();
-
-    // TODO: Check if account exist in database through the API and add user to store
-    // TODO: + on it's browser
-    console.log(values, event);
-  };
-
   const isValid = () => {
     if (!values.email || !values.password) {
       return false;
     }
     return true;
+  };
+
+  const handleSubmitForm = async (event) => {
+    event.preventDefault();
+
+    if (!isValid) return;
+
+    dispatch(login(values.email, values.password)).then(() => {
+      navigate('/overview');
+    });
+
+    // TODO: Send an alert to the user to say Welcome!
   };
 
   return (
@@ -106,6 +125,19 @@ const Login = () => {
                   }
                 />
               </FormControl>
+              <Typography sx={{ marginTop: 1 }}>
+                Forgot your password?{' '}
+                <Link
+                  href="/"
+                  variant="body"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/reset-password');
+                  }}
+                >
+                  We'll help you find it
+                </Link>
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
