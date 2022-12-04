@@ -2,6 +2,7 @@ import './Header.scss';
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AppBar,
   Button,
@@ -14,23 +15,16 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const pages = [
-  {
-    key: 'login',
-    label: 'Login',
-    target: '/login',
-  },
-  {
-    key: 'register',
-    label: 'Create an account',
-    target: '/register',
-  },
-];
+import { logout } from '../../../store/actions/auth';
+import useNotification from '../../../hooks/useNotifications';
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { displayNotification } = useNotification();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -41,14 +35,36 @@ const Header = () => {
     navigate(target);
   };
 
+  const logOut = React.useCallback(() => {
+    dispatch(logout());
+    displayNotification({ message: 'You are now disconnected, see you soon!', type: 'success' });
+  }, [dispatch, displayNotification]);
+
+  const pages = [
+    {
+      key: 'login',
+      label: 'Login',
+      action: () => navigate('/login'),
+      needLoggedIn: false,
+    },
+    {
+      key: 'register',
+      label: 'Create an account',
+      action: () => navigate('/register'),
+      needLoggedIn: false,
+    },
+    {
+      key: 'logout',
+      label: 'Logout',
+      action: () => logOut(),
+      needLoggedIn: true,
+    },
+  ];
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography
-          variant="h6"
-          component="h1"
-          sx={{ flexGrow: 1, cursor: 'pointer' }}
-        >
+        <Typography variant="h6" component="h1" sx={{ flexGrow: 1, cursor: 'pointer' }}>
           <Link to="/">TimeYourTask</Link>
         </Typography>
         <Box
@@ -86,10 +102,7 @@ const Header = () => {
             }}
           >
             {pages.map((page) => (
-              <MenuItem
-                key={page.key}
-                onClick={() => handleCloseNavMenu(page.target)}
-              >
+              <MenuItem key={page.key} onClick={() => handleCloseNavMenu(page.target)}>
                 <Typography textAlign="center">{page.label}</Typography>
               </MenuItem>
             ))}
@@ -103,21 +116,26 @@ const Header = () => {
             gap: 2,
           }}
         >
-          {pages.map((page, key) => (
-            <Button
-              key={page.key}
-              onClick={() => handleCloseNavMenu(page.target)}
-              sx={{
-                my: 2,
-                color: 'white',
-                display: 'block',
-                borderColor: pages.length - 1 === key ? 'white' : '',
-              }}
-              variant="outlined"
-            >
-              {page.label}
-            </Button>
-          ))}
+          {pages.map((page, key) => {
+            if ((currentUser && !page.needLoggedIn) || (!currentUser && page.needLoggedIn)) {
+              return false;
+            }
+            return (
+              <Button
+                key={page.key}
+                onClick={page.action}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                  borderColor: pages.length - 1 === key ? 'white' : '',
+                }}
+                variant="outlined"
+              >
+                {page.label}
+              </Button>
+            );
+          })}
         </Box>
       </Toolbar>
     </AppBar>
