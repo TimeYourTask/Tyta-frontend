@@ -56,6 +56,12 @@ module.exports = {
       'after',
       { overrides: { '&&': 'after', '?': 'before', ':': 'before' } },
     ],
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*'],
+      },
+    ],
 
     'react/display-name': 'off',
     'react/prop-types': 'off',
@@ -69,6 +75,7 @@ module.exports = {
     ],
     'react/jsx-wrap-multilines': ['error', { prop: false }],
     'react/jsx-props-no-spreading': 'off',
+    'react/jsx-one-expression-per-line': 'off',
     'prettier/prettier': 'off',
   },
 };
