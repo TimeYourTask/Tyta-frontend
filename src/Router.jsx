@@ -7,6 +7,7 @@ import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
 import Forbidden from './pages/Forbidden/Forbidden';
+import Login from './pages/Login/Login';
 import RequireAuth from './components/Auth/RequireAuth';
 
 const Router = () => {
@@ -17,7 +18,7 @@ const Router = () => {
       children: [
         { path: '', element: <Home /> },
         // { path: 'register', element: <Register /> },
-        // { path: 'login', element: <Login /> },
+        { path: 'login', element: <Login /> },
         { path: '404', element: <NotFound /> },
         { path: '500', element: <Forbidden /> },
       ],
