@@ -2,7 +2,7 @@ import './ResetPassword.scss';
 
 import React from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
 import {
   FormControl,
   Grid,
@@ -20,14 +20,19 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
-import { sendEmailToResetPassword, resetPassword } from '../../api/user.api';
+
+import { requestResetPassword, resetPassword } from '../../store/actions/auth';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [values, setValues] = React.useState({
     showPassword: false,
   });
+
+  const token = searchParams.get('token');
+  const tokenId = searchParams.get('id');
 
   const handleChange = (name) => (event) => {
     setValues({
@@ -42,23 +47,11 @@ const ResetPassword = () => {
 
   const handleSubmitForm = async (event) => {
     event.preventDefault();
-    const token = searchParams.get('token');
-    const tokenId = searchParams.get('id');
 
     if (!token || !tokenId) {
-      const sendEmail = await sendEmailToResetPassword(values.email);
-      console.log(sendEmail);
-      // TODO: send alert to global app before redirection to say to user "Check your email"
-      navigate('/');
+      dispatch(requestResetPassword(values.email));
     } else {
-      const resetPasswordReq = await resetPassword(
-        tokenId,
-        token,
-        values.password
-      );
-      console.log(resetPasswordReq);
-      // TODO: send alert to global app before redirection to say to user
-      // TODO: "Password reset successfully please login"
+      dispatch(resetPassword({ tokenId, token, newPassword: values.password }));
       navigate('/login');
     }
   };
@@ -66,8 +59,8 @@ const ResetPassword = () => {
   const isValid = () => {
     if (
       (!values.email && !searchParams.get('token')) ||
-      ((!values.password || !values.repeatPassword) &&
-        searchParams.get('token'))
+      ((!values.password || !values.repeatPassword) && searchParams.get('token')) ||
+      values.password !== values.repeatPassword
     ) {
       return false;
     }
@@ -118,11 +111,7 @@ const ResetPassword = () => {
                           onClick={showPassword}
                           edge="end"
                         >
-                          {values.showPassword ? (
-                            <VisibilityOffIcon />
-                          ) : (
-                            <VisibilityIcon />
-                          )}
+                          {values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -131,9 +120,7 @@ const ResetPassword = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel htmlFor="password">
-                    Repeat your password
-                  </InputLabel>
+                  <InputLabel htmlFor="password">Repeat your password</InputLabel>
                   <OutlinedInput
                     id="repeat-password"
                     label="Repeat your password"
@@ -146,11 +133,7 @@ const ResetPassword = () => {
                           onClick={showPassword}
                           edge="end"
                         >
-                          {values.showPassword ? (
-                            <VisibilityOffIcon />
-                          ) : (
-                            <VisibilityIcon />
-                          )}
+                          {values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -168,7 +151,7 @@ const ResetPassword = () => {
               disableRipple
               onClick={handleSubmitForm}
             >
-              Send me an email!
+              {token && tokenId ? 'Set my new password' : 'Send me an email!'}
             </Button>
           </Grid>
         </Grid>

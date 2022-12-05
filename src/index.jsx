@@ -4,8 +4,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
+import Notification from './components/Elements/Notification';
 import reportWebVitals from './helpers/reportWebVitals';
-import store from './store/reducer';
+import store from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -14,6 +15,7 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <App />
+        <Notification />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

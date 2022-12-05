@@ -8,7 +8,7 @@ import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
 import Forbidden from './pages/Forbidden/Forbidden';
 import Login from './pages/Login/Login';
-import RequireAuth from './components/Auth/RequireAuth';
+import RequireAuth from './components/Providers/RequireAuth';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Register from './pages/Register/Register';
 
