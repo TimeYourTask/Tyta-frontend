@@ -1,6 +1,9 @@
 import './Register.scss';
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   FormControl,
   Grid,
@@ -24,10 +27,21 @@ import {
 } from '@mui/icons-material';
 
 import RegisterImg from '../../assets/register.webp';
+import { register } from '../../store/actions/auth';
 
 const Register = () => {
   const [values, setValues] = React.useState({
     showPassword: false,
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/overview');
+    }
   });
 
   const handleChange = (name) => (event) => {
@@ -44,8 +58,10 @@ const Register = () => {
   const handleSubmitForm = (event) => {
     event.preventDefault();
 
-    // TODO: Create account in database through the API
-    console.log(values, event);
+    dispatch(register(values.email, values.password)).then(() => {
+      navigate('/overview');
+    });
+    // TODO: Send an alert for register
   };
 
   const isValid = () => {
@@ -62,11 +78,7 @@ const Register = () => {
 
   return (
     <Grid container spacing={5} alignItems="center" justifyContent="center">
-      <Grid
-        item
-        xs={5}
-        sx={{ overflow: 'hidden', display: { xs: 'none', md: 'block' } }}
-      >
+      <Grid item xs={5} sx={{ overflow: 'hidden', display: { xs: 'none', md: 'block' } }}>
         <Box
           component="img"
           alt="Night landscape"
@@ -136,11 +148,7 @@ const Register = () => {
                         onClick={showPassword}
                         edge="end"
                       >
-                        {values.showPassword ? (
-                          <VisibilityOffIcon />
-                        ) : (
-                          <VisibilityIcon />
-                        )}
+                        {values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                       </IconButton>
                     </InputAdornment>
                   }
@@ -149,9 +157,7 @@ const Register = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <InputLabel htmlFor="repeat-password">
-                  Repeat your password
-                </InputLabel>
+                <InputLabel htmlFor="repeat-password">Repeat your password</InputLabel>
                 <OutlinedInput
                   id="repeat-password"
                   label="Repeat your password"
@@ -164,11 +170,7 @@ const Register = () => {
                         onClick={showPassword}
                         edge="end"
                       >
-                        {values.showPassword ? (
-                          <VisibilityOffIcon />
-                        ) : (
-                          <VisibilityIcon />
-                        )}
+                        {values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                       </IconButton>
                     </InputAdornment>
                   }
