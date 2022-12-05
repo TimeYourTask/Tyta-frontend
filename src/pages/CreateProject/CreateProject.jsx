@@ -81,14 +81,7 @@ const CreateProject = () => {
             </ul>
           </Alert>
         </Box>
-        <Box
-          component="form"
-          sx={{
-            '& > :not(style)': { m: 1 },
-          }}
-          onSubmit={() => handleSubmitForm}
-          noValidate
-        >
+        <Box component="form" onSubmit={() => handleSubmitForm} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <FormControl fullWidth required>
