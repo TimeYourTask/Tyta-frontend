@@ -3,6 +3,12 @@ import axiosInstance from './axios.config';
 const register = (email, password) => axiosInstance.post('/register', {
   email,
   password,
+}).then((res) => {
+  if (res.data.token) {
+    localStorage.setItem('user', JSON.stringify(res.data));
+  }
+
+  return res.data;
 });
 
 const login = (email, password) => axiosInstance

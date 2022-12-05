@@ -15,15 +15,16 @@ import AuthService from '../services/auth.service';
 
 export const register =
   (username, email, password) => (dispatch) => AuthService.register(username, email, password).then(
-    (response) => {
+    (res) => {
       dispatch({
         type: REGISTER_SUCCESS,
+        payload: { user: res },
       });
 
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
-          message: response.data.message,
+          message: res.message,
           type: 'success',
         },
       });
@@ -56,10 +57,10 @@ export const register =
 
 export const login =
   (email, password) => (dispatch) => AuthService.login(email, password).then(
-    (data) => {
+    (res) => {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: { user: data },
+        payload: { user: res },
       });
 
       dispatch({
@@ -178,6 +179,7 @@ export const resetPassword =
       return Promise.reject();
     }
   );
+
 export const logout = () => (dispatch) => {
   AuthService.logout();
 

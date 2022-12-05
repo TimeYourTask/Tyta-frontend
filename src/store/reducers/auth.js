@@ -21,10 +21,6 @@ export default (state = initialState, action) => {
 
   switch (type) {
     case REGISTER_SUCCESS:
-      return {
-        ...state,
-        isLoggedIn: true,
-      };
     case LOGIN_SUCCESS:
       return {
         ...state,
