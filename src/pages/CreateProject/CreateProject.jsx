@@ -76,7 +76,6 @@ const CreateProject = () => {
                 Write a short description of the project so that you know what
                 it is about.
               </li>
-              <li>Assign this project to the right team</li>
               <li>Assign this project to the appropriate contributors</li>
             </ul>
           </Alert>
