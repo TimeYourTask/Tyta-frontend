@@ -124,13 +124,12 @@ const Header = () => {
               <Button
                 key={page.key}
                 onClick={page.action}
+                color="white"
                 sx={{
                   my: 2,
-                  color: 'white',
                   display: 'block',
-                  borderColor: pages.length - 1 === key ? 'white' : '',
                 }}
-                variant="outlined"
+                variant={pages.length - 1 === key ? 'outlined' : 'text'}
               >
                 {page.label}
               </Button>
