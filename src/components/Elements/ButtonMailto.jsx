@@ -1,17 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import { Box } from '@mui/material';
 
 const ButtonMailto = ({ email, children }) => (
-  // eslint-disable-next-line jsx-a11y/anchor-is-valid
-  <Link
-    to="#"
+  <Box
+    component="a"
+    href={`mailto:${email}`}
+    sx={{ cursor: 'pointer' }}
     onClick={(e) => {
       window.open(`mailto:${email}`, '_blank');
       e.preventDefault();
     }}
   >
     {children}
-  </Link>
+  </Box>
 );
 
 export default ButtonMailto;
