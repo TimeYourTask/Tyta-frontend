@@ -3,7 +3,6 @@ import './Toolbar.scss';
 import React from 'react';
 import { styled } from '@mui/system';
 import {
-  Paper,
   List,
   ListItemButton,
   ListItemText,
@@ -59,122 +58,110 @@ const ToolBar = () => {
   };
 
   return (
-    <Paper
-      elevation={0}
-      sx={{ height: '90vh', borderTop: 0 }}
-      variant="outlined"
-      square
-    >
-      <List component="nav" disablePadding sx={{ height: '100%' }}>
-        <Grid
-          container
-          sx={{
-            padding: 1.5,
-            height: '100%',
-          }}
-        >
-          <Grid item xs={12}>
-            <ListItemButton
-              sx={{
-                py: 2,
-              }}
-              component={Link}
-              to="/overview"
-            >
-              <StyledListItemIcon>
-                <DashboardIcon />
-              </StyledListItemIcon>
-              <ListItemText
-                primary="Overview"
-                primaryTypographyProps={{
-                  fontSize: '.9rem',
-                  fontWeight: 'medium',
-                  lineHeight: '20px',
-                  mb: '2px',
-                }}
-                sx={{ my: 0 }}
-              />
-            </ListItemButton>
-            <Box>
-              <ListItemButton
-                onClick={() => openMenu(menu.ROADMAP)}
-                sx={{
-                  py: '2px',
-                }}
-              >
-                <ListItemText
-                  primary="Roadmap"
-                  primaryTypographyProps={{
-                    fontSize: '.8rem',
-                    lineHeight: '20px',
-                    mb: '2px',
-                    color: 'grey.700',
-                    fontWeight: 'medium',
-                  }}
-                  sx={{ my: 0 }}
-                />
-                <KeyboardArrowDown
-                  sx={{
-                    mr: -1,
-                    opacity: 1,
-                    transform: open.includes(menu.ROADMAP)
-                      ? 'rotate(-180deg)'
-                      : 'rotate(0)',
-                    transition: '0.2s',
-                  }}
-                />
-              </ListItemButton>
-              {open.includes(menu.ROADMAP) &&
-                roadMapSubFields.map((item) => (
-                  <ListItemButton
-                    key={item.value}
-                    sx={{ py: 0, minHeight: 50, fontWeight: 'medium' }}
-                    component={Link}
-                    to={item.target}
-                  >
-                    <StyledListItemIcon>{item.icon}</StyledListItemIcon>
-                    <ListItemText
-                      primary={item.label}
-                      primaryTypographyProps={{
-                        fontWeight: 'medium',
-                        fontSize: '.9rem',
-                      }}
-                    />
-                  </ListItemButton>
-                ))}
-            </Box>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{ height: 'fit-content', alignSelf: 'flex-end' }}
+    <List component="nav" disablePadding sx={{ height: '100%' }}>
+      <Grid
+        container
+        sx={{
+          p: 1.5,
+          paddingBottom: 0,
+          height: '100%',
+        }}
+      >
+        <Grid item xs={12}>
+          <ListItemButton
+            sx={{
+              py: 2,
+            }}
+            component={Link}
+            to="/overview"
           >
-            <Divider />
-            <ListItemButton
-              sx={{
-                py: 2,
+            <StyledListItemIcon>
+              <DashboardIcon />
+            </StyledListItemIcon>
+            <ListItemText
+              primary="Overview"
+              primaryTypographyProps={{
+                fontSize: '.9rem',
+                fontWeight: 'medium',
+                lineHeight: '20px',
+                mb: '2px',
               }}
-              component={Link}
-              to="/manage-project"
+              sx={{ my: 0 }}
+            />
+          </ListItemButton>
+          <Box>
+            <ListItemButton
+              onClick={() => openMenu(menu.ROADMAP)}
+              sx={{
+                py: '2px',
+              }}
             >
-              <StyledListItemIcon>
-                <SettingsIcon />
-              </StyledListItemIcon>
               <ListItemText
-                primary="Manage project"
+                primary="Roadmap"
                 primaryTypographyProps={{
-                  fontSize: '.9rem',
-                  fontWeight: 'medium',
+                  fontSize: '.8rem',
                   lineHeight: '20px',
                   mb: '2px',
+                  color: 'grey.700',
+                  fontWeight: 'medium',
                 }}
                 sx={{ my: 0 }}
               />
+              <KeyboardArrowDown
+                sx={{
+                  mr: -1,
+                  opacity: 1,
+                  transform: open.includes(menu.ROADMAP) ? 'rotate(-180deg)' : 'rotate(0)',
+                  transition: '0.2s',
+                }}
+              />
             </ListItemButton>
-          </Grid>
+            {open.includes(menu.ROADMAP) &&
+              roadMapSubFields.map((item) => (
+                <ListItemButton
+                  key={item.value}
+                  sx={{ py: 0, minHeight: 50, fontWeight: 'medium' }}
+                  component={Link}
+                  to={item.target}
+                >
+                  <StyledListItemIcon>{item.icon}</StyledListItemIcon>
+                  <ListItemText
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      fontWeight: 'medium',
+                      fontSize: '.9rem',
+                    }}
+                  />
+                </ListItemButton>
+              ))}
+          </Box>
         </Grid>
-      </List>
-    </Paper>
+        <Grid item xs={12} sx={{ height: 'fit-content', alignSelf: 'flex-end' }}>
+          <Divider />
+          <ListItemButton
+            sx={{
+              py: 2,
+            }}
+            component={Link}
+            to="/manage-project"
+          >
+            <StyledListItemIcon>
+              <SettingsIcon />
+            </StyledListItemIcon>
+            <ListItemText
+              primary="Manage project"
+              primaryTypographyProps={{
+                fontSize: '.9rem',
+                fontWeight: 'medium',
+                lineHeight: '20px',
+                mb: '2px',
+              }}
+              sx={{ my: 0 }}
+            />
+          </ListItemButton>
+        </Grid>
+      </Grid>
+    </List>
   );
 };
 
