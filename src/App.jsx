@@ -4,8 +4,6 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 
-import Header from './components/Sections/Header/Header';
-import Footer from './components/Sections/Footer/Footer';
 import Router from './Router';
 
 import lightTheme from './themes/light';
@@ -20,9 +18,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header />
       <Router />
-      <Footer />
     </ThemeProvider>
   );
 };
