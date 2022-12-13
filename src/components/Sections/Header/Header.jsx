@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { logout } from '../../../store/actions/auth';
 import useNotification from '../../../hooks/useNotifications';
 
-const Header = () => {
+const Header = ({ ...props }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { displayNotification } = useNotification();
@@ -62,7 +62,7 @@ const Header = () => {
   ];
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" {...props}>
       <Toolbar>
         <Typography variant="h6" component="h1" sx={{ flexGrow: 1, cursor: 'pointer' }}>
           <Link to="/">TimeYourTask</Link>
