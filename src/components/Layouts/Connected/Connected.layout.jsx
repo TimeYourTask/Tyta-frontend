@@ -62,16 +62,17 @@ const ConnectedLayout = () => {
           onClick={() => setOpen(!open)}
           size="large"
           sx={{
+            border: 'solid rgba(0, 0, 0, 0.12)',
+            borderWidth: '1px 1px 1px 0',
+            borderRadius: '0 4px 4px 0',
             position: 'absolute',
             padding: '4px',
-            top: 0,
+            top: 3,
             left: 0,
-            transform: open && 'rotate(180deg)',
-            borderRadius: 0,
             opacity: 100,
           }}
         >
-          <OpenIcon />
+          <OpenIcon sx={{ transform: open && 'rotate(180deg)' }} />
         </IconButton>
         <Outlet />
       </Main>
