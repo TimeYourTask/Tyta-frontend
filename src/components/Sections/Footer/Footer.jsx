@@ -5,6 +5,7 @@ import React from 'react';
 import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
+import ButtonMailto from '../../Elements/ButtonMailto';
 
 const Footer = () => (
   <Paper
@@ -45,7 +46,7 @@ const Footer = () => (
         gap: 3,
       }}
     >
-      <Link to="/">Contact us</Link>
+      <ButtonMailto email="contact@timeyourtask.com">Contact us</ButtonMailto>
       <Link to="/">Terms and policies</Link>
       <Link to="/">Sitemap</Link>
     </Typography>

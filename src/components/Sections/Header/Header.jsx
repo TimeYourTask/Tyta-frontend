@@ -38,7 +38,8 @@ const Header = () => {
   const logOut = React.useCallback(() => {
     dispatch(logout());
     displayNotification({ message: 'You are now disconnected, see you soon!', type: 'success' });
-  }, [dispatch, displayNotification]);
+    navigate('/');
+  }, [dispatch, displayNotification, navigate]);
 
   const pages = [
     {
@@ -65,7 +66,7 @@ const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="h1" sx={{ flexGrow: 1, cursor: 'pointer' }}>
-          <Link to="/">TimeYourTask</Link>
+          <Link to={!currentUser ? '/' : '/overview'}>TimeYourTask</Link>
         </Typography>
         <Box
           sx={{
@@ -124,13 +125,12 @@ const Header = () => {
               <Button
                 key={page.key}
                 onClick={page.action}
+                color="white"
                 sx={{
                   my: 2,
-                  color: 'white',
                   display: 'block',
-                  borderColor: pages.length - 1 === key ? 'white' : '',
                 }}
-                variant="outlined"
+                variant={pages.length - 1 === key ? 'outlined' : 'text'}
               >
                 {page.label}
               </Button>
