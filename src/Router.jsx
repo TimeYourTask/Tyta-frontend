@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from 'react-router-dom';
 
 import DefaultLayout from './components/Layouts/Default/Default.layout';
 import Home from './pages/Home/Home';
@@ -35,6 +35,7 @@ const Router = () => {
       element: <DefaultLayout />,
       children: [{ path: 'user/:teamID', element: <AddUserToTeam /> }],
     },
+    { path: '*', element: <Navigate to="/404" replace /> },
   ];
 
   const routing = useRoutes(mainRoutes);
