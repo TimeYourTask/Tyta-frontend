@@ -78,5 +78,9 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'prettier/prettier': 'off',
+    'no-underscore-dangle': 'off',
+    'prefer-template': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'import/prefer-default-export': 'off',
   },
 };

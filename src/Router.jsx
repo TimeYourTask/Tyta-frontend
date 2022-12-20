@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { Navigate, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 
 import DefaultLayout from './components/Layouts/Default/Default.layout';
-import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
 import Forbidden from './pages/Forbidden/Forbidden';
 import Login from './pages/Login/Login';
-import RequireAuth from './components/Providers/RequireAuth';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Register from './pages/Register/Register';
+import ListTeams from './pages/Teams/ListTeams/ListTeams';
+import AddUserToTeam from './pages/Teams/AddUserToTeam/AddUserToTeam';
 
 const Router = () => {
   const mainRoutes = [
@@ -24,18 +24,17 @@ const Router = () => {
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '500', element: <Forbidden /> },
+        {
+          path: 'teams',
+          element: <ListTeams />,
+        },
       ],
     },
     {
-      path: '/team',
-      element: (
-        <RequireAuth>
-          <ConnectedLayout />
-        </RequireAuth>
-      ),
-      children: [{ path: '', element: <Home /> }],
+      path: '/teams',
+      element: <DefaultLayout />,
+      children: [{ path: 'user/:teamID', element: <AddUserToTeam /> }],
     },
-    { path: '*', element: <Navigate to="/404" replace /> },
   ];
 
   const routing = useRoutes(mainRoutes);
