@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import {
+  Button,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
   Tooltip,
-  Button,
-  Stack,
+  Typography,
 } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -30,20 +30,11 @@ const ListTeams = () => {
 
   useEffect(() => {
     dispatch(getTeams());
-  }, []);
-
-  useEffect(() => {
-    console.log(teams);
-  }, [teams]);
+  }, [dispatch]);
 
   return (
     <>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="flex-start"
-        spacing={2}
-      >
+      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
         <Typography variant="h3" component="h3">
           List of Teams
         </Typography>
@@ -92,16 +83,11 @@ const ListTeams = () => {
                   <TableCell align="center">{team.users.length}</TableCell>
                 </Tooltip>
                 <TableCell size="small" align="right">
-                  <Stack
-                    direction="row"
-                    justifyContent="flex-end"
-                    alignItems="center"
-                    spacing={1}
-                  >
+                  <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                     <Button
                       variant="outlined"
                       onClick={() => {
-                        navigate('/teams/user/' + team._id);
+                        navigate(`/teams/user/${team._id}`);
                       }}
                     >
                       <PersonAddIcon />
@@ -110,7 +96,7 @@ const ListTeams = () => {
                       variant="outlined"
                       color="warning"
                       onClick={() => {
-                        navigate('/teams/user/' + team._id);
+                        navigate(`/teams/user/${team._id}`);
                       }}
                     >
                       <EditIcon />
@@ -119,7 +105,7 @@ const ListTeams = () => {
                       variant="outlined"
                       color="error"
                       onClick={() => {
-                        navigate('/teams/user/' + team._id);
+                        navigate(`/teams/user/${team._id}`);
                       }}
                     >
                       <DeleteIcon />

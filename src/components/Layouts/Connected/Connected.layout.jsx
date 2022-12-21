@@ -4,7 +4,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
-import { Box, Drawer, CssBaseline, Toolbar as MuiToolBar, IconButton } from '@mui/material';
+import { Box, CssBaseline, Drawer, IconButton, Toolbar as MuiToolBar } from '@mui/material';
 import { KeyboardArrowRight as OpenIcon } from '@mui/icons-material';
 
 import Header from '../../Sections/Header/Header';
@@ -56,7 +56,12 @@ const ConnectedLayout = () => {
           </Box>
         </Drawer>
       </Box>
-      <Main open={open}>
+      <Main
+        open={open}
+        sx={{
+          paddingLeft: '40px',
+        }}
+      >
         <IconButton
           aria-label="Open menu"
           onClick={() => setOpen(!open)}

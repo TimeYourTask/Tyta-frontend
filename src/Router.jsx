@@ -11,6 +11,8 @@ import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Register from './pages/Register/Register';
 import ListTeams from './pages/Teams/ListTeams/ListTeams';
 import AddUserToTeam from './pages/Teams/AddUserToTeam/AddUserToTeam';
+import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
+import RequireAuth from './components/Providers/RequireAuth';
 
 const Router = () => {
   const mainRoutes = [
@@ -24,23 +26,23 @@ const Router = () => {
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '500', element: <Forbidden /> },
-        {
-          path: 'teams',
-          element: <ListTeams />,
-        },
       ],
     },
     {
       path: '/teams',
-      element: <DefaultLayout />,
-      children: [{ path: 'user/:teamID', element: <AddUserToTeam /> }],
+      element:
+  <RequireAuth>
+    <ConnectedLayout />
+  </RequireAuth>,
+      children: [
+        { path: '', element: <ListTeams /> },
+        { path: 'user/:teamID', element: <AddUserToTeam /> },
+      ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ];
 
-  const routing = useRoutes(mainRoutes);
-
-  return routing;
+  return useRoutes(mainRoutes);
 };
 
 export default Router;

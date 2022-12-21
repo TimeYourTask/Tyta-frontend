@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Typography,
-  OutlinedInput,
-  Box,
-  Chip,
-  Button,
-} from '@mui/material';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { getUsers } from '../../../store/actions/users';
-import { getTeams, addUserToTeam } from '../../../store/actions/teams';
+import { addUserToTeam, getTeams } from '../../../store/actions/teams';
 
 const AddUserToTeam = () => {
   const { teamID } = useParams();
@@ -29,7 +19,7 @@ const AddUserToTeam = () => {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (teams.length) {
@@ -47,7 +37,7 @@ const AddUserToTeam = () => {
     } else {
       dispatch(getTeams());
     }
-  }, [teams, users]);
+  }, [teams, users, dispatch, teamID]);
 
   const handleChange = (event) => {
     setSelectedUsers(event.target.value);
@@ -78,10 +68,10 @@ const AddUserToTeam = () => {
           margin: '20px 0',
         }}
       >
-        <InputLabel id="demo-simple-select-label">Available Users</InputLabel>
+        <InputLabel id="select-label">Users</InputLabel>
         <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
+          labelId="select-label"
+          id="select-users"
           multiple
           value={selectedUsers}
           onChange={(event) => handleChange(event)}
