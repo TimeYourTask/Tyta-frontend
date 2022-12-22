@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Box, Button, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { getUsers } from '../../../store/actions/users';
-import { addUserToTeam, getTeams } from '../../../store/actions/teams';
+import { addUserToTeam } from '../../../store/actions/teams';
+import UsersService from '../../../store/services/users.service';
+import TeamsService from '../../../store/services/teams.service';
 
 const AddUserToTeam = () => {
   const { teamID } = useParams();
   const dispatch = useDispatch();
 
-  const { users } = useSelector((state) => state.users);
-  const { teams } = useSelector((state) => state.teams);
-
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectableUsers, setSelectableUsers] = useState([]);
 
-  useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+  let users = [];
+  let team = {};
 
-  useEffect(() => {
-    if (teams.length) {
+  const data = async () => {
+    users = await UsersService.getUsers();
+    team = await TeamsService.getOneTeam(teamID);
+
+    if (users && team) {
       const tempUsers = JSON.parse(JSON.stringify(users));
-      const team = teams.find((t) => t._id === teamID);
 
       const alreadySelectedUsers = team.users.map((u) => u.user._id);
 
@@ -34,10 +33,12 @@ const AddUserToTeam = () => {
 
       setSelectableUsers(filteredUsers);
       setSelectedTeam(team);
-    } else {
-      dispatch(getTeams());
     }
-  }, [teams, users, dispatch, teamID]);
+  };
+
+  useEffect(() => {
+    data();
+  }, []);
 
   const handleChange = (event) => {
     setSelectedUsers(event.target.value);
@@ -89,6 +90,9 @@ const AddUserToTeam = () => {
               {capitalize(user.firstName)}
             </MenuItem>
           ))}
+          {selectableUsers.length === 0 && (
+            <MenuItem disabled selected>No users available</MenuItem>
+          )}
         </Select>
 
         <Button

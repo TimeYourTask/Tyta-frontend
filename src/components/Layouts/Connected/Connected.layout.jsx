@@ -16,7 +16,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     position: 'relative',
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(5),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -56,12 +56,7 @@ const ConnectedLayout = () => {
           </Box>
         </Drawer>
       </Box>
-      <Main
-        open={open}
-        sx={{
-          paddingLeft: '40px',
-        }}
-      >
+      <Main open={open}>
         <IconButton
           aria-label="Open menu"
           onClick={() => setOpen(!open)}
