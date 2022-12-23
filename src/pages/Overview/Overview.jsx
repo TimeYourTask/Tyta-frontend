@@ -1,5 +1,3 @@
-import './Overview.scss';
-
 import React from 'react';
 
 import { useTheme } from '@mui/material/styles';
