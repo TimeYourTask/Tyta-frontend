@@ -4,7 +4,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
-import { Box, Drawer, CssBaseline, Toolbar as MuiToolBar, IconButton } from '@mui/material';
+import { Box, CssBaseline, Drawer, IconButton, Toolbar as MuiToolBar } from '@mui/material';
 import { KeyboardArrowRight as OpenIcon } from '@mui/icons-material';
 
 import Header from '../../Sections/Header/Header';
@@ -16,7 +16,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     position: 'relative',
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(5),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

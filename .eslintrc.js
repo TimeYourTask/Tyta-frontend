@@ -78,5 +78,6 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'prettier/prettier': 'off',
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 };

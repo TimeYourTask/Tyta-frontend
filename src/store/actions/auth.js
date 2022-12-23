@@ -63,10 +63,12 @@ export const login =
         payload: { user: res },
       });
 
+      console.log(res);
+
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
-          message: 'Welcome back {firstname}!',
+          message: `Welcome back ${res.firstName}!`,
           type: 'success',
         },
       });
