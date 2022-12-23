@@ -13,6 +13,7 @@ import ListTeams from './pages/Teams/ListTeams/ListTeams';
 import AddUserToTeam from './pages/Teams/AddUserToTeam/AddUserToTeam';
 import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import RequireAuth from './components/Providers/RequireAuth';
+import AddTeam from './pages/Teams/AddTeam/AddTeam';
 
 const Router = () => {
   const mainRoutes = [
@@ -37,6 +38,7 @@ const Router = () => {
       children: [
         { path: '', element: <ListTeams /> },
         { path: 'user/:teamID', element: <AddUserToTeam /> },
+        { path: 'add', element: <AddTeam /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },

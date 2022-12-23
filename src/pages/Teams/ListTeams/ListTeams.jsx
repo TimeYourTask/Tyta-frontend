@@ -43,11 +43,7 @@ const ListTeams = () => {
           variant="outlined"
           href="/teams/add"
           startIcon={
-            <GroupAddIcon
-              sx={{
-                padding: '0 10px 0 0',
-              }}
-            />
+            <GroupAddIcon />
           }
         >
           Add a team
