@@ -7,8 +7,14 @@ const addUserToTeam = (team, user) => axiosInstance.put(`/team/${team}/user`, { 
 
 const getOneTeam = (team) => axiosInstance.get(`/team/${team}`).then((res) => res.data);
 
+const updateTeam = (team) => axiosInstance.put(`/team/${team.id}`, {
+  users: team.users,
+  name: team.name,
+}).then((res) => res.data);
+
 export default {
   getTeams,
   addUserToTeam,
   getOneTeam,
+  updateTeam,
 };
