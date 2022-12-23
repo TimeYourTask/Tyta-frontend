@@ -3,6 +3,7 @@
 /.pnp
 .pnp.js
 package-lock.json
+yarn.lock
 
 # testing
 /coverage
@@ -23,5 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode/
-
 .idea/
