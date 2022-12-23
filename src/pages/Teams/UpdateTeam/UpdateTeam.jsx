@@ -104,6 +104,53 @@ const AddTeam = () => {
           value={teamName}
           onChange={handleName}
         />
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>First name</TableCell>
+                <TableCell>Last name</TableCell>
+                <TableCell>Role</TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow
+                  key={user._id}
+                  sx={{
+                    background: user.deleted ? 'lightgray' : '',
+                  }}
+                >
+                  <TableCell>{capitalize(user.user.firstName)}</TableCell>
+                  <TableCell>{capitalize(user.user.lastName)}</TableCell>
+                  <TableCell>
+                    <FormControl size="small">
+                      <Select
+                        id="role"
+                        value={user.role}
+                        onChange={changeRole}
+                        name={user._id}
+                      >
+                        <MenuItem value="user">
+                          User
+                        </MenuItem>
+                        <MenuItem value="admin">
+                          Admin
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </TableCell>
+                  <TableCell size="small" align="right">
+                    <IconButton onClick={() => deleteUser(user._id)} color="primary">
+                      {user.deleted ? <ReplayIcon /> : <ClearIcon color="error" />}
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
         <Button
           sx={{
             margin: '20px 0',
@@ -111,58 +158,11 @@ const AddTeam = () => {
           onClick={update}
           startIcon={
             <GroupAddIcon />
-          }
+        }
         >
           Update the team
         </Button>
       </FormControl>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>First name</TableCell>
-              <TableCell>Last name</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow
-                key={user._id}
-                sx={{
-                  background: user.deleted ? 'lightgray' : '',
-                }}
-              >
-                <TableCell>{capitalize(user.user.firstName)}</TableCell>
-                <TableCell>{capitalize(user.user.lastName)}</TableCell>
-                <TableCell>
-                  <FormControl size="small">
-                    <Select
-                      id="role"
-                      value={user.role}
-                      onChange={changeRole}
-                      name={user._id}
-                    >
-                      <MenuItem value="user">
-                        User
-                      </MenuItem>
-                      <MenuItem value="admin">
-                        Admin
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </TableCell>
-                <TableCell size="small" align="right">
-                  <IconButton onClick={() => deleteUser(user._id)} color="primary">
-                    {user.deleted ? <ReplayIcon /> : <ClearIcon color="error" />}
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
     </div>
   );
 };
