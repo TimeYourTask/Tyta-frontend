@@ -39,7 +39,7 @@ const Router = () => {
       children: [
         { path: 'overview', element: <Overview /> },
         { path: 'teams', element: <ListTeams /> },
-        { path: 'user/:teamID', element: <AddUserToTeam /> },
+        { path: 'user/:teamID/users', element: <AddUserToTeam /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
