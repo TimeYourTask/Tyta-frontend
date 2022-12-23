@@ -29,7 +29,6 @@ const AddTeam = () => {
   };
 
   const handleName = (event) => {
-    console.log();
     setName(event.target.value);
   };
 
