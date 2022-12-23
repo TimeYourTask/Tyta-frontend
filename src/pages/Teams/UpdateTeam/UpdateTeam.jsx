@@ -55,7 +55,7 @@ const AddTeam = () => {
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
-          message: 'Nom de team incorrect !',
+          message: 'Incorrect team name !',
           type: 'error',
         },
       });
