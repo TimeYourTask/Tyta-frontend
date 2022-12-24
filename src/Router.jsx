@@ -14,6 +14,7 @@ import ListTeams from './pages/Teams/ListTeams/ListTeams';
 import AddUserToTeam from './pages/Teams/AddUserToTeam/AddUserToTeam';
 import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import RequireAuth from './components/Providers/RequireAuth';
+import UpdateTeam from './pages/Teams/UpdateTeam/UpdateTeam';
 import AddTeam from './pages/Teams/AddTeam/AddTeam';
 
 const Router = () => {
@@ -38,10 +39,14 @@ const Router = () => {
         </RequireAuth>
       ),
       children: [
+
+        { path: '', element: <ListTeams /> },
+        { path: 'user/:teamID', element: <AddUserToTeam /> },
         { path: 'overview', element: <Overview /> },
         { path: 'teams', element: <ListTeams /> },
         { path: 'teams/add', element: <AddTeam /> },
-        { path: 'teams/:teamID/users', element: <AddUserToTeam /> },
+        { path: 'team/:teamID/update', element: <UpdateTeam /> },
+        { path: 'team/:teamID/users', element: <AddUserToTeam /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },

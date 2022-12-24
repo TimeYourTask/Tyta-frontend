@@ -5,7 +5,7 @@ import {
   CREATE_TEAM_SUCCESS,
   GET_TEAMS_FAILED,
   GET_TEAMS_SUCCESS,
-  SET_NOTIFICATION,
+  SET_NOTIFICATION, UPDATE_TEAM_FAILED, UPDATE_TEAM_SUCCESS,
 } from './types';
 
 import TeamService from '../services/teams.service';
@@ -56,6 +56,44 @@ export const addUserToTeam = (team, user) => (dispatch) => TeamService.addUserTo
 
     dispatch({
       type: ADD_USER_TEAMS_FAILED,
+    });
+
+    dispatch({
+      type: SET_NOTIFICATION,
+      payload: {
+        message,
+        type: 'error',
+      },
+    });
+
+    return Promise.reject(message);
+  });
+
+export const updateTeam = (team) => (dispatch) => TeamService.updateTeam(team)
+  .then((res) => {
+    dispatch({
+      type: UPDATE_TEAM_SUCCESS,
+      payload: res,
+    });
+
+    dispatch({
+      type: SET_NOTIFICATION,
+      payload: {
+        message: 'Team updated !',
+        type: 'success',
+      },
+    });
+
+    return Promise.resolve();
+  })
+  .catch((error) => {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+
+    dispatch({
+      type: UPDATE_TEAM_FAILED,
     });
 
     dispatch({
