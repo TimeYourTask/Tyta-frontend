@@ -14,8 +14,8 @@ import {
 import {
   KeyboardArrowDown,
   Dashboard as DashboardIcon,
-  AssignmentInd as AssignmentIndIcon,
-  Assignment as AssignmentIcon,
+  Groups as GroupsIcon,
+  GroupAdd as GroupAddIcon,
   Settings as SettingsIcon,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -29,27 +29,32 @@ const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
   },
 }));
 
-const menu = {
-  ROADMAP: 'roadmap',
+const menuSections = {
+  TEAMS: 'teams',
 };
 
-const roadMapSubFields = [
+const menuItems = [
   {
-    icon: <AssignmentIcon />,
-    label: 'All tasks',
-    value: 'all-tasks',
-    target: '/all-tasks',
-  },
-  {
-    icon: <AssignmentIndIcon />,
-    label: 'My tasks',
-    value: 'my-tasks',
-    target: '/my-tasks',
+    section: menuSections.TEAMS,
+    links: [
+      {
+        icon: <GroupsIcon />,
+        label: 'Your teams',
+        value: 'your-teams',
+        target: '/teams',
+      },
+      {
+        icon: <GroupAddIcon />,
+        label: 'New team',
+        value: 'new-team',
+        target: '/teams/add',
+      },
+    ],
   },
 ];
 
 const ToolBar = () => {
-  const [open, setOpen] = React.useState([menu.ROADMAP]);
+  const [open, setOpen] = React.useState([menuSections.TEAMS]);
 
   const openMenu = (menuItem) => {
     if (open.includes(menuItem)) {
@@ -90,50 +95,56 @@ const ToolBar = () => {
             />
           </ListItemButton>
           <Box>
-            <ListItemButton
-              onClick={() => openMenu(menu.ROADMAP)}
-              sx={{
-                py: '2px',
-              }}
-            >
-              <ListItemText
-                primary="Roadmap"
-                primaryTypographyProps={{
-                  fontSize: '.8rem',
-                  lineHeight: '20px',
-                  mb: '2px',
-                  color: 'grey.700',
-                  fontWeight: 'medium',
-                }}
-                sx={{ my: 0 }}
-              />
-              <KeyboardArrowDown
-                sx={{
-                  mr: -1,
-                  opacity: 1,
-                  transform: open.includes(menu.ROADMAP) ? 'rotate(-180deg)' : 'rotate(0)',
-                  transition: '0.2s',
-                }}
-              />
-            </ListItemButton>
-            {open.includes(menu.ROADMAP) &&
-              roadMapSubFields.map((item) => (
+            {menuItems.map((menuItem) => (
+              <React.Fragment key={menuItem.section}>
                 <ListItemButton
-                  key={item.value}
-                  sx={{ py: 0, minHeight: 50, fontWeight: 'medium' }}
-                  component={Link}
-                  to={item.target}
+                  onClick={() => openMenu(menuItem.section)}
+                  sx={{
+                    py: '2px',
+                  }}
                 >
-                  <StyledListItemIcon>{item.icon}</StyledListItemIcon>
                   <ListItemText
-                    primary={item.label}
                     primaryTypographyProps={{
+                      fontSize: '.8rem',
+                      lineHeight: '20px',
+                      mb: '2px',
+                      color: 'grey.700',
                       fontWeight: 'medium',
-                      fontSize: '.9rem',
+                      textTransform: 'capitalize',
+                    }}
+                    sx={{ my: 0 }}
+                  >
+                    {menuItem.section}
+                  </ListItemText>
+                  <KeyboardArrowDown
+                    sx={{
+                      mr: -1,
+                      opacity: 1,
+                      transform: open.includes(menuItem.section) ? 'rotate(-180deg)' : 'rotate(0)',
+                      transition: '0.2s',
                     }}
                   />
                 </ListItemButton>
-              ))}
+                {open.includes(menuItem.section) &&
+                  menuItem.links.map((item) => (
+                    <ListItemButton
+                      key={item.value}
+                      sx={{ py: 0, minHeight: 50, fontWeight: 'medium' }}
+                      component={Link}
+                      to={item.target}
+                    >
+                      <StyledListItemIcon>{item.icon}</StyledListItemIcon>
+                      <ListItemText
+                        primary={item.label}
+                        primaryTypographyProps={{
+                          fontWeight: 'medium',
+                          fontSize: '.9rem',
+                        }}
+                      />
+                    </ListItemButton>
+                  ))}
+              </React.Fragment>
+            ))}
           </Box>
         </Grid>
         <Grid item xs={12} sx={{ height: 'fit-content', alignSelf: 'flex-end' }}>
@@ -149,15 +160,15 @@ const ToolBar = () => {
               <SettingsIcon />
             </StyledListItemIcon>
             <ListItemText
-              primary="Manage project"
               primaryTypographyProps={{
                 fontSize: '.9rem',
                 fontWeight: 'medium',
                 lineHeight: '20px',
-                mb: '2px',
               }}
               sx={{ my: 0 }}
-            />
+            >
+              Settings
+            </ListItemText>
           </ListItemButton>
         </Grid>
       </Grid>

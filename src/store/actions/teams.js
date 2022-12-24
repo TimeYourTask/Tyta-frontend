@@ -1,6 +1,8 @@
 import {
   ADD_USER_TEAMS_FAILED,
   ADD_USER_TEAMS_SUCCESS,
+  CREATE_TEAM_FAILED,
+  CREATE_TEAM_SUCCESS,
   GET_TEAMS_FAILED,
   GET_TEAMS_SUCCESS,
   SET_NOTIFICATION, UPDATE_TEAM_FAILED, UPDATE_TEAM_SUCCESS,
@@ -92,6 +94,43 @@ export const updateTeam = (team) => (dispatch) => TeamService.updateTeam(team)
 
     dispatch({
       type: UPDATE_TEAM_FAILED,
+    });
+
+    dispatch({
+      type: SET_NOTIFICATION,
+      payload: {
+        message,
+        type: 'error',
+      },
+    });
+
+    return Promise.reject(message);
+  });
+export const createTeam = (teamName) => (dispatch) => TeamService.createTeam(teamName)
+  .then((res) => {
+    dispatch({
+      type: CREATE_TEAM_SUCCESS,
+      payload: res,
+    });
+
+    dispatch({
+      type: SET_NOTIFICATION,
+      payload: {
+        message: 'Team created !',
+        type: 'success',
+      },
+    });
+
+    return Promise.resolve();
+  })
+  .catch((error) => {
+    const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+    dispatch({
+      type: CREATE_TEAM_FAILED,
     });
 
     dispatch({

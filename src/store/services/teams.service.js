@@ -12,9 +12,14 @@ const updateTeam = (team) => axiosInstance.put(`/team/${team.id}`, {
   name: team.name,
 }).then((res) => res.data);
 
+const createTeam = (teamName) => axiosInstance.post('/team', { name: teamName })
+  .then((res) => res.data.newTeam);
+
+
 export default {
   getTeams,
   addUserToTeam,
   getOneTeam,
   updateTeam,
+  createTeam,
 };
