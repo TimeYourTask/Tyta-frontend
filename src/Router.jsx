@@ -9,6 +9,7 @@ import Forbidden from './pages/Forbidden/Forbidden';
 import Login from './pages/Login/Login';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Register from './pages/Register/Register';
+import Overview from './pages/Overview/Overview';
 import ListTeams from './pages/Teams/ListTeams/ListTeams';
 import AddUserToTeam from './pages/Teams/AddUserToTeam/AddUserToTeam';
 import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
@@ -30,15 +31,17 @@ const Router = () => {
       ],
     },
     {
-      path: '/teams',
-      element:
-  <RequireAuth>
-    <ConnectedLayout />
-  </RequireAuth>,
+      path: '/',
+      element: (
+        <RequireAuth>
+          <ConnectedLayout />
+        </RequireAuth>
+      ),
       children: [
-        { path: '', element: <ListTeams /> },
-        { path: 'user/:teamID', element: <AddUserToTeam /> },
-        { path: 'add', element: <AddTeam /> },
+        { path: 'overview', element: <Overview /> },
+        { path: 'teams', element: <ListTeams /> },
+        { path: 'teams/add', element: <AddTeam /> },
+        { path: 'teams/:teamID/users', element: <AddUserToTeam /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
