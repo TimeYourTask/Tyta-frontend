@@ -16,7 +16,7 @@ import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import RequireAuth from './components/Providers/RequireAuth';
 import UpdateTeam from './pages/Teams/UpdateTeam/UpdateTeam';
 import AddTeam from './pages/Teams/AddTeam/AddTeam';
-import CreateProject from './pages/CreateProject/CreateProject';
+import CreateProject from './pages/Projects/CreateProject/CreateProject';
 
 const Router = () => {
   const mainRoutes = [
@@ -47,7 +47,7 @@ const Router = () => {
         { path: 'teams/add', element: <AddTeam /> },
         { path: 'team/:teamID/update', element: <UpdateTeam /> },
         { path: 'team/:teamID/users', element: <AddUserToTeam /> },
-        { path: 'projects/add', element: <CreateProject /> },
+        { path: 'team/:TeamID/projects/add', element: <CreateProject /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
