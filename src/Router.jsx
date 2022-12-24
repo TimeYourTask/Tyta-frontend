@@ -41,7 +41,6 @@ const Router = () => {
       ),
       children: [
         { path: '', element: <ListTeams /> },
-        { path: 'user/:teamID', element: <AddUserToTeam /> },
         { path: 'overview', element: <Overview /> },
         { path: 'teams', element: <ListTeams /> },
         { path: 'teams/add', element: <AddTeam /> },
