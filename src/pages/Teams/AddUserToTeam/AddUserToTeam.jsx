@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Typography,
+} from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { addUserToTeam } from '../../../store/actions/teams';
 import UsersService from '../../../store/services/users.service';
@@ -27,9 +37,7 @@ const AddUserToTeam = () => {
 
       const alreadySelectedUsers = team.users.map((u) => u.user._id);
 
-      const filteredUsers = tempUsers.filter(
-        (user) => !alreadySelectedUsers.includes(user._id)
-      );
+      const filteredUsers = tempUsers.filter((user) => !alreadySelectedUsers.includes(user._id));
 
       setSelectableUsers(filteredUsers);
       setSelectedTeam(team);
@@ -60,7 +68,7 @@ const AddUserToTeam = () => {
 
   return (
     <div className="add-user-to-team">
-      <Typography variant="h5" component="h5">
+      <Typography variant="h4" component="h4">
         Add User To Team {selectedTeam && selectedTeam.name}
       </Typography>
       <FormControl
@@ -91,7 +99,9 @@ const AddUserToTeam = () => {
             </MenuItem>
           ))}
           {selectableUsers.length === 0 && (
-            <MenuItem disabled selected>No users available</MenuItem>
+            <MenuItem disabled selected>
+              No users available
+            </MenuItem>
           )}
         </Select>
 

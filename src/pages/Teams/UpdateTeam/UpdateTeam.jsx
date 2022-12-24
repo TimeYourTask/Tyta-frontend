@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import {
   Button,
   FormControl,
-  IconButton, MenuItem,
+  IconButton,
+  MenuItem,
   Select,
   Table,
   TableBody,
@@ -13,22 +16,24 @@ import {
   TableRow,
   TextField,
   Typography,
+  Grid,
 } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { useParams } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import ReplayIcon from '@mui/icons-material/Replay';
+
 import { updateTeam } from '../../../store/actions/teams';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
 import TeamsService from '../../../store/services/teams.service';
 
 const AddTeam = () => {
   const { teamID } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [teamName, setTeamName] = useState('');
   const [users, setUsers] = useState([]);
   const [team, setTeam] = useState({});
-  const dispatch = useDispatch();
 
   const data = async () => {
     const tempTeam = await TeamsService.getOneTeam(teamID);
@@ -42,15 +47,19 @@ const AddTeam = () => {
   useEffect(() => {
     data();
   }, []);
+
   const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
   const update = () => {
     if (teamName.trim().length > 0) {
       const tempUsers = users.filter((user) => !user.deleted);
-      dispatch(updateTeam({
-        id: teamID,
-        name: teamName,
-        users: tempUsers,
-      }));
+      dispatch(
+        updateTeam({
+          id: teamID,
+          name: teamName,
+          users: tempUsers,
+        })
+      );
+      navigate(-1);
     } else {
       dispatch({
         type: SET_NOTIFICATION,
@@ -67,29 +76,33 @@ const AddTeam = () => {
   };
 
   const deleteUser = (userID) => {
-    setUsers(users.map((user) => {
-      if (userID === user._id) {
-        // eslint-disable-next-line no-param-reassign
-        user.deleted = !user.deleted;
-      }
-      return user;
-    }));
+    setUsers(
+      users.map((user) => {
+        if (userID === user._id) {
+          // eslint-disable-next-line no-param-reassign
+          user.deleted = !user.deleted;
+        }
+        return user;
+      })
+    );
   };
 
   const changeRole = (event) => {
     const { value, name } = event.target;
-    setUsers(users.map((user) => {
-      if (name === user._id) {
-        // eslint-disable-next-line no-param-reassign
-        user.role = value;
-      }
-      return user;
-    }));
+    setUsers(
+      users.map((user) => {
+        if (name === user._id) {
+          // eslint-disable-next-line no-param-reassign
+          user.role = value;
+        }
+        return user;
+      })
+    );
   };
 
   return (
     <div className="add-team">
-      <Typography variant="h5" component="h5">
+      <Typography variant="h4" component="h4">
         Update the team : {team.name}
       </Typography>
       <FormControl
@@ -98,12 +111,7 @@ const AddTeam = () => {
           margin: '20px 0',
         }}
       >
-        <TextField
-          id="team-name"
-          label="Name"
-          value={teamName}
-          onChange={handleName}
-        />
+        <TextField id="team-name" label="Name" value={teamName} onChange={handleName} />
         <TableContainer>
           <Table>
             <TableHead>
@@ -126,18 +134,9 @@ const AddTeam = () => {
                   <TableCell>{capitalize(user.user.lastName)}</TableCell>
                   <TableCell>
                     <FormControl size="small">
-                      <Select
-                        id="role"
-                        value={user.role}
-                        onChange={changeRole}
-                        name={user._id}
-                      >
-                        <MenuItem value="user">
-                          User
-                        </MenuItem>
-                        <MenuItem value="admin">
-                          Admin
-                        </MenuItem>
+                      <Select id="role" value={user.role} onChange={changeRole} name={user._id}>
+                        <MenuItem value="user">User</MenuItem>
+                        <MenuItem value="admin">Admin</MenuItem>
                       </Select>
                     </FormControl>
                   </TableCell>
@@ -151,17 +150,25 @@ const AddTeam = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Button
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
           sx={{
             margin: '20px 0',
           }}
-          onClick={update}
-          startIcon={
-            <GroupAddIcon />
-        }
         >
-          Update the team
-        </Button>
+          <Grid item xs={12} sm={2}>
+            <Button onClick={update} startIcon={<GroupAddIcon />}>
+              Update the team
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <Button onClick={() => navigate(-1)} color="error">
+              Cancel edits
+            </Button>
+          </Grid>
+        </Grid>
       </FormControl>
     </div>
   );

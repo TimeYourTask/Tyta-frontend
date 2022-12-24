@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Button,
-  FormControl,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, FormControl, TextField, Typography } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { createTeam } from '../../../store/actions/teams';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
@@ -34,7 +29,7 @@ const AddTeam = () => {
 
   return (
     <div className="add-team">
-      <Typography variant="h5" component="h5">
+      <Typography variant="h4" component="h4">
         Create a new team
       </Typography>
       <FormControl
@@ -43,20 +38,13 @@ const AddTeam = () => {
           margin: '20px 0',
         }}
       >
-        <TextField
-          id="team-name"
-          label="Name"
-          value={name}
-          onChange={handleName}
-        />
+        <TextField id="team-name" label="Name" value={name} onChange={handleName} />
         <Button
           sx={{
             margin: '20px 0',
           }}
           onClick={addTeam}
-          startIcon={
-            <GroupAddIcon />
-          }
+          startIcon={<GroupAddIcon />}
         >
           Create Team
         </Button>
