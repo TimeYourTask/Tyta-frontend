@@ -110,6 +110,7 @@ const AddUserToTeam = () => {
             margin: '20px 0',
           }}
           onClick={addUsers}
+          startIcon={<GroupAddIcon />}
         >
           <GroupAddIcon />
           Add User{selectedUsers.length > 1 ? 's' : ''}
