@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import {
   Button,
   Stack,
@@ -16,7 +19,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { getTeams } from '../../../store/actions/teams';
 
 function capitalize(text) {
@@ -60,7 +63,9 @@ const ListTeams = () => {
           <TableBody>
             {teams.map((team) => (
               <TableRow key={team._id}>
-                <TableCell>{team.name}</TableCell>
+                <TableCell>
+                  <Link to={`/team/${team._id}/projects`}>{team.name}</Link>
+                </TableCell>
                 <TableCell align="center">{team.projects.length}</TableCell>
                 {team.users.length && (
                   <Tooltip
