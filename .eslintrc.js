@@ -79,5 +79,9 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     'prettier/prettier': 'off',
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'no-confusing-arrow': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'react/jsx-curly-newline': 'off',
+    'function-paren-newline': 'off',
   },
 };
