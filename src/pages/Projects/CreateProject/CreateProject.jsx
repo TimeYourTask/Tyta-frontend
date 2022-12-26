@@ -1,13 +1,18 @@
-import './CreateProject.scss';
-
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { FormControl, Grid, TextField, Button, Box, Typography } from '@mui/material';
 
+import ProjectService from '../../../store/services/projects.service';
+import { SET_NOTIFICATION } from '../../../store/actions/types';
+
 const CreateProject = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { teamID } = useParams();
+
   const [values, setValues] = React.useState({});
-  const { user: currentUser } = useSelector((state) => state.auth);
 
   const handleChange = (name) => (event) => {
     setValues({
@@ -28,8 +33,17 @@ const CreateProject = () => {
 
     if (!isValid()) return false;
 
-    // TODO: Link With backend
-    console.log(values, currentUser, event);
+    ProjectService.createProject(teamID, values).then(() => {
+      dispatch({
+        type: SET_NOTIFICATION,
+        payload: {
+          message: 'Team created !',
+          type: 'success',
+        },
+      });
+      navigate(-1);
+    });
+
     return true;
   };
 
@@ -66,14 +80,19 @@ const CreateProject = () => {
           </Grid>
           <Grid item>
             <Button
-              size="large"
               type="submit"
               variant="contained"
               disabled={!isValid()}
               disableRipple
               onClick={handleSubmitForm}
+              sx={{
+                marginRight: 1,
+              }}
             >
               Create project!
+            </Button>
+            <Button variant="outlined" color="error" onClick={() => navigate(-1)}>
+              Cancel
             </Button>
           </Grid>
         </Grid>
