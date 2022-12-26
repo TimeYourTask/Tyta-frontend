@@ -7,8 +7,12 @@ const getUserProjects = (userId, teamId) => axiosInstance.get(`/user/${userId}/p
 const createProject = (teamId, data) => axiosInstance.post(`/team/${teamId}/project`, data)
   .then((res) => res.data);
 
+const deleteProject = (projectId) => axiosInstance.delete(`/project/${projectId}`)
+  .then((res) => res.data);
+
 export default {
   getProjectsAsAdmin,
   getUserProjects,
   createProject,
+  deleteProject,
 };
