@@ -14,6 +14,8 @@ import {
   Tooltip,
   Typography,
   IconButton,
+  Box,
+  Grid,
 } from '@mui/material';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -23,9 +25,55 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import ProjectService from '../../../store/services/projects.service';
 
+import ProjectEmptyStateImg from '../../../assets/project-empty-state.svg';
+
 function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+const ProjectEmptyState = ({ teamID }) => (
+  <Grid
+    container
+    spacing={2}
+    display="flex"
+    flexDirection="column"
+    alignItems="center"
+    sx={{ mt: 5 }}
+  >
+    <Grid item xs={8}>
+      <Box
+        component="img"
+        sx={{
+          height: '300px',
+        }}
+        alt="The house from the offer."
+        src={ProjectEmptyStateImg}
+      />
+    </Grid>
+    <Grid item xs={4}>
+      <Box
+        sx={{
+          mt: 2,
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h5">
+          <strong>No projects yet!</strong>
+        </Typography>
+        <Typography variant="body1" sx={{ my: 1, mb: 3 }}>
+          Create your first project now to organize your teams and track your tasks.
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddCircleIcon />}
+          href={`/team/${teamID}/projects/add`}
+        >
+          Create new project now!
+        </Button>
+      </Box>
+    </Grid>
+  </Grid>
+);
 
 const TeamProjects = () => {
   const { teamID } = useParams();
@@ -52,18 +100,18 @@ const TeamProjects = () => {
           Create new project
         </Button>
       </Stack>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="center">Users</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {projects &&
-              projects.map((project) => (
+      {projects.length > 0 ? (
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="center">Users</TableCell>
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {projects.map((project) => (
                 <TableRow key={project._id}>
                   <TableCell>
                     <Link to={`/team/${project._id}/project/${project._id}`}>{project.name}</Link>
@@ -98,16 +146,25 @@ const TeamProjects = () => {
                       <IconButton color="warning" href={`/team/${project._id}/update`}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton color="error">
+                      <IconButton
+                        color="error"
+                        onClick={() => {
+                          ProjectService.deleteProject(project._id);
+                          setProjects(projects.filter((item) => item._id !== project._id));
+                        }}
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </Stack>
                   </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <ProjectEmptyState teamID={teamID} />
+      )}
     </>
   );
 };
