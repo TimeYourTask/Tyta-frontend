@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, FormControl, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+import { Button, FormControl, TextField, Typography, Grid } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+
 import { createTeam } from '../../../store/actions/teams';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
 
 const AddTeam = () => {
   const [name, setName] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const addTeam = () => {
     if (name.trim().length > 0) {
@@ -39,15 +43,24 @@ const AddTeam = () => {
         }}
       >
         <TextField id="team-name" label="Name" value={name} onChange={handleName} />
-        <Button
+
+        <Grid
+          container
           sx={{
             margin: '20px 0',
           }}
-          onClick={addTeam}
-          startIcon={<GroupAddIcon />}
         >
-          Create Team
-        </Button>
+          <Grid item xs={12} sm={2}>
+            <Button onClick={addTeam} startIcon={<GroupAddIcon />} variant="contained">
+              Create Team
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <Button variant="outlined" color="error" onClick={() => navigate(-1)}>
+              Cancel
+            </Button>
+          </Grid>
+        </Grid>
       </FormControl>
     </div>
   );
