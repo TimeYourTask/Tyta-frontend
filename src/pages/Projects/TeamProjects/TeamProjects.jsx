@@ -18,10 +18,13 @@ import {
   Grid,
 } from '@mui/material';
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  AddCircle as AddCircleIcon,
+  Visibility as VisibilityIcon,
+  PersonAdd as PersonAddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+} from '@mui/icons-material';
 
 import ProjectService from '../../../store/services/projects.service';
 
@@ -111,57 +114,75 @@ const TeamProjects = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {projects.map((project) => (
-                <TableRow key={project._id}>
-                  <TableCell>
-                    <Link to={`/team/${project._id}/project/${project._id}`}>{project.name}</Link>
-                  </TableCell>
-                  {project.users.length && (
-                    <Tooltip
-                      placement="right"
-                      title={
-                        <div>
-                          {project.users.map((user) => (
-                            <div key={user._id}>
-                              {capitalize(user.user.firstName)}
-                              {user.role === 'admin' ? ' (Admin)' : ''}
-                            </div>
-                          ))}
-                        </div>
-                      }
-                    >
-                      <TableCell align="center">{project.users.length}</TableCell>
-                    </Tooltip>
-                  )}
-                  <TableCell size="small" align="right">
-                    <Stack
-                      direction="row"
-                      justifyContent="flex-end"
-                      alignItems="center"
-                      spacing={1}
-                    >
-                      <IconButton href={`/team/${project._id}/users`} color="primary">
-                        <PersonAddIcon />
-                      </IconButton>
-                      <IconButton
-                        color="warning"
-                        href={`/team/${project._id}/project/${project._id}/edit`}
+              {projects.map((project) => {
+                const isCurrentUserAdminOfProject = project.users.some(
+                  (user) => user.user._id === currentUser.id && user.role === 'admin'
+                );
+                return (
+                  <TableRow key={project._id}>
+                    <TableCell>
+                      <Link to={`/team/${project._id}/project/${project._id}`}>{project.name}</Link>
+                    </TableCell>
+                    {project.users.length && (
+                      <Tooltip
+                        placement="right"
+                        title={
+                          <div>
+                            {project.users.map((user) => (
+                              <div key={user._id}>
+                                {capitalize(user.user.firstName)}
+                                {user.role === 'admin' ? ' (Admin)' : ''}
+                              </div>
+                            ))}
+                          </div>
+                        }
                       >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        color="error"
-                        onClick={() => {
-                          ProjectService.deleteProject(project._id);
-                          setProjects(projects.filter((item) => item._id !== project._id));
-                        }}
+                        <TableCell align="center">{project.users.length}</TableCell>
+                      </Tooltip>
+                    )}
+                    <TableCell size="small" align="right">
+                      <Stack
+                        direction="row"
+                        justifyContent="flex-end"
+                        alignItems="center"
+                        spacing={1}
                       >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
+                        <IconButton
+                          href={`/team/${teamID}/project/${project._id}`}
+                          color="grey.500"
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                        {isCurrentUserAdminOfProject && (
+                          <>
+                            <IconButton
+                              href={`/team/${teamID}/project/${project._id}/users`}
+                              color="primary"
+                            >
+                              <PersonAddIcon />
+                            </IconButton>
+                            <IconButton
+                              color="warning"
+                              href={`/team/${teamID}/project/${project._id}/edit`}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              color="error"
+                              onClick={() => {
+                                ProjectService.deleteProject(project._id);
+                                setProjects(projects.filter((item) => item._id !== project._id));
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </>
+                        )}
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
