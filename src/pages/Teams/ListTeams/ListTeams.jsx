@@ -89,7 +89,7 @@ const ListTeams = () => {
                     <IconButton href={`/team/${team._id}/users`} color="primary">
                       <PersonAddIcon />
                     </IconButton>
-                    <IconButton color="warning" href={`/team/${team._id}/update`}>
+                    <IconButton color="warning" href={`/team/${team._id}/edit`}>
                       <EditIcon />
                     </IconButton>
                     <IconButton color="error">

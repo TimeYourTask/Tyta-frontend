@@ -143,7 +143,10 @@ const TeamProjects = () => {
                       <IconButton href={`/team/${project._id}/users`} color="primary">
                         <PersonAddIcon />
                       </IconButton>
-                      <IconButton color="warning" href={`/team/${project._id}/update`}>
+                      <IconButton
+                        color="warning"
+                        href={`/team/${project._id}/project/${project._id}/edit`}
+                      >
                         <EditIcon />
                       </IconButton>
                       <IconButton
