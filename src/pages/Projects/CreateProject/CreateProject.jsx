@@ -37,7 +37,7 @@ const CreateProject = () => {
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
-          message: 'Team created !',
+          message: `Project "${values.name}" successfully created!`,
           type: 'success',
         },
       });
