@@ -17,6 +17,7 @@ import RequireAuth from './components/Providers/RequireAuth';
 import UpdateTeam from './pages/Teams/UpdateTeam/UpdateTeam';
 import AddTeam from './pages/Teams/AddTeam/AddTeam';
 import CreateProject from './pages/Projects/CreateProject/CreateProject';
+import TeamProjects from './pages/Projects/TeamProjects/TeamProjects';
 
 const Router = () => {
   const mainRoutes = [
@@ -46,7 +47,8 @@ const Router = () => {
         { path: 'teams/add', element: <AddTeam /> },
         { path: 'team/:teamID/update', element: <UpdateTeam /> },
         { path: 'team/:teamID/users', element: <AddUserToTeam /> },
-        { path: 'team/:TeamID/projects/add', element: <CreateProject /> },
+        { path: 'team/:teamID/projects', element: <TeamProjects /> },
+        { path: 'team/:teamID/projects/add', element: <CreateProject /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
