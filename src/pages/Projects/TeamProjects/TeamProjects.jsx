@@ -68,7 +68,7 @@ const ProjectEmptyState = ({ teamID }) => (
           startIcon={<AddCircleIcon />}
           href={`/team/${teamID}/projects/add`}
         >
-          Create new project now!
+          Create new project
         </Button>
       </Box>
     </Grid>
