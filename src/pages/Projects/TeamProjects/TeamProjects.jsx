@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import {
@@ -27,6 +27,7 @@ import {
 } from '@mui/icons-material';
 
 import ProjectService from '../../../store/services/projects.service';
+import { SET_NOTIFICATION } from '../../../store/actions/types';
 
 import ProjectEmptyStateImg from '../../../assets/project-empty-state.svg';
 
@@ -79,6 +80,8 @@ const ProjectEmptyState = ({ teamID }) => (
 );
 
 const TeamProjects = () => {
+  const dispatch = useDispatch();
+
   const { teamID } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const [projects, setProjects] = React.useState([]);
@@ -172,6 +175,13 @@ const TeamProjects = () => {
                               onClick={() => {
                                 ProjectService.deleteProject(project._id);
                                 setProjects(projects.filter((item) => item._id !== project._id));
+                                dispatch({
+                                  type: SET_NOTIFICATION,
+                                  payload: {
+                                    message: `${project.name} successfully deleted!`,
+                                    type: 'success',
+                                  },
+                                });
                               }}
                             >
                               <DeleteIcon />
