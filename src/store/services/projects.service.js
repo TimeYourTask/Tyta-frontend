@@ -4,7 +4,12 @@ const getProjectsAsAdmin = () => axiosInstance.get('/admin/projects').then((res)
 
 const getUserProjects = (userId, teamId) => axiosInstance.get(`/user/${userId}/projects`, teamId ? { team: teamId } : null).then((res) => res.data);
 
+const getOneProject = (projectId) => axiosInstance.get(`/project/${projectId}`).then((res) => res.data);
+
 const createProject = (teamId, data) => axiosInstance.post(`/team/${teamId}/project`, data)
+  .then((res) => res.data);
+
+const addUserToProject = (projectId, userId, data = {}) => axiosInstance.put(`/project/${projectId}/user/${userId}`, data)
   .then((res) => res.data);
 
 const deleteProject = (projectId) => axiosInstance.delete(`/project/${projectId}`)
@@ -13,6 +18,8 @@ const deleteProject = (projectId) => axiosInstance.delete(`/project/${projectId}
 export default {
   getProjectsAsAdmin,
   getUserProjects,
+  getOneProject,
   createProject,
+  addUserToProject,
   deleteProject,
 };
