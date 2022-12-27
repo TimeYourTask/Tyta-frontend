@@ -112,7 +112,6 @@ const AddUserToTeam = () => {
           onClick={addUsers}
           startIcon={<GroupAddIcon />}
         >
-          <GroupAddIcon />
           Add User{selectedUsers.length > 1 ? 's' : ''}
         </Button>
       </FormControl>
