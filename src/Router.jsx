@@ -19,6 +19,7 @@ import AddTeam from './pages/Teams/AddTeam/AddTeam';
 import CreateProject from './pages/Projects/CreateProject/CreateProject';
 import TeamProjects from './pages/Projects/TeamProjects/TeamProjects';
 import AddUserToProject from './pages/Projects/AddUserToProject/AddUserToProject';
+import EditProject from './pages/Projects/EditProject/EditProject';
 
 const Router = () => {
   const mainRoutes = [
@@ -50,7 +51,7 @@ const Router = () => {
         { path: 'team/:teamID/users', element: <AddUserToTeam /> },
         { path: 'team/:teamID/projects', element: <TeamProjects /> },
         { path: 'team/:teamID/projects/add', element: <CreateProject /> },
-        { path: 'team/:teamID/project/:projectId/edit', element: <CreateProject /> },
+        { path: 'team/:teamID/project/:projectId/edit', element: <EditProject /> },
         { path: 'team/:teamID/project/:projectId/users', element: <AddUserToProject /> },
       ],
     },
