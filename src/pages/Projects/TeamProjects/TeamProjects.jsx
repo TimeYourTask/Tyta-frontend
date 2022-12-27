@@ -85,121 +85,127 @@ const TeamProjects = () => {
   const { teamID } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const [projects, setProjects] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     ProjectService.getUserProjects(currentUser.id, teamID).then((userProjects) => {
       setProjects(userProjects);
+      setLoading(false);
     });
   }, []);
 
   return (
-    <>
-      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
-        <Typography variant="h4" component="h4">
-          List of Projects
-        </Typography>
-        <Button
-          variant="outlined"
-          href={`/team/${teamID}/projects/add`}
-          startIcon={<AddCircleIcon />}
-        >
-          Create new project
-        </Button>
-      </Stack>
-      {projects.length > 0 ? (
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="center">Users</TableCell>
-                <TableCell align="right">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {projects.map((project) => {
-                const isCurrentUserAdminOfProject = project.users.some(
-                  (user) => user.user._id === currentUser.id && user.role === 'admin'
-                );
-                return (
-                  <TableRow key={project._id}>
-                    <TableCell>
-                      <Link to={`/team/${project._id}/project/${project._id}`}>{project.name}</Link>
-                    </TableCell>
-                    {project.users.length && (
-                      <Tooltip
-                        placement="right"
-                        title={
-                          <div>
-                            {project.users.map((user) => (
-                              <div key={user._id}>
-                                {capitalize(user.user.firstName)}
-                                {user.role === 'admin' ? ' (Admin)' : ''}
-                              </div>
-                            ))}
-                          </div>
-                        }
-                      >
-                        <TableCell align="center">{project.users.length}</TableCell>
-                      </Tooltip>
-                    )}
-                    <TableCell size="small" align="right">
-                      <Stack
-                        direction="row"
-                        justifyContent="flex-end"
-                        alignItems="center"
-                        spacing={1}
-                      >
-                        <IconButton
-                          href={`/team/${teamID}/project/${project._id}`}
-                          color="grey.500"
+    !loading && (
+      <>
+        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+          <Typography variant="h4" component="h4">
+            List of Projects
+          </Typography>
+          <Button
+            variant="outlined"
+            href={`/team/${teamID}/projects/add`}
+            startIcon={<AddCircleIcon />}
+          >
+            Create new project
+          </Button>
+        </Stack>
+        {projects.length > 0 ? (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="center">Users</TableCell>
+                  <TableCell align="right">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {projects.map((project) => {
+                  const isCurrentUserAdminOfProject = project.users.some(
+                    (user) => user.user._id === currentUser.id && user.role === 'admin'
+                  );
+                  return (
+                    <TableRow key={project._id}>
+                      <TableCell>
+                        <Link to={`/team/${project._id}/project/${project._id}`}>
+                          {project.name}
+                        </Link>
+                      </TableCell>
+                      {project.users.length && (
+                        <Tooltip
+                          placement="right"
+                          title={
+                            <div>
+                              {project.users.map((user) => (
+                                <div key={user._id}>
+                                  {capitalize(user.user.firstName)}
+                                  {user.role === 'admin' ? ' (Admin)' : ''}
+                                </div>
+                              ))}
+                            </div>
+                          }
                         >
-                          <VisibilityIcon />
-                        </IconButton>
-                        {isCurrentUserAdminOfProject && (
-                          <>
-                            <IconButton
-                              href={`/team/${teamID}/project/${project._id}/users`}
-                              color="primary"
-                            >
-                              <PersonAddIcon />
-                            </IconButton>
-                            <IconButton
-                              color="warning"
-                              href={`/team/${teamID}/project/${project._id}/edit`}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton
-                              color="error"
-                              onClick={() => {
-                                ProjectService.deleteProject(project._id);
-                                setProjects(projects.filter((item) => item._id !== project._id));
-                                dispatch({
-                                  type: SET_NOTIFICATION,
-                                  payload: {
-                                    message: `${project.name} successfully deleted!`,
-                                    type: 'success',
-                                  },
-                                });
-                              }}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </>
-                        )}
-                      </Stack>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      ) : (
-        <ProjectEmptyState teamID={teamID} />
-      )}
-    </>
+                          <TableCell align="center">{project.users.length}</TableCell>
+                        </Tooltip>
+                      )}
+                      <TableCell size="small" align="right">
+                        <Stack
+                          direction="row"
+                          justifyContent="flex-end"
+                          alignItems="center"
+                          spacing={1}
+                        >
+                          <IconButton
+                            href={`/team/${teamID}/project/${project._id}`}
+                            color="grey.500"
+                          >
+                            <VisibilityIcon />
+                          </IconButton>
+                          {isCurrentUserAdminOfProject && (
+                            <>
+                              <IconButton
+                                href={`/team/${teamID}/project/${project._id}/users`}
+                                color="primary"
+                              >
+                                <PersonAddIcon />
+                              </IconButton>
+                              <IconButton
+                                color="warning"
+                                href={`/team/${teamID}/project/${project._id}/edit`}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton
+                                color="error"
+                                onClick={() => {
+                                  ProjectService.deleteProject(project._id);
+                                  setProjects(projects.filter((item) => item._id !== project._id));
+                                  dispatch({
+                                    type: SET_NOTIFICATION,
+                                    payload: {
+                                      message: `${project.name} successfully deleted!`,
+                                      type: 'success',
+                                    },
+                                  });
+                                }}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </>
+                          )}
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <ProjectEmptyState teamID={teamID} />
+        )}
+      </>
+    )
   );
 };
 
