@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import {
   Button,
   Stack,
@@ -16,7 +19,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { getTeams } from '../../../store/actions/teams';
 
 function capitalize(text) {
@@ -28,25 +31,23 @@ const ListTeams = () => {
   const { teams } = useSelector((state) => state.teams);
 
   useEffect(() => {
+    dispatch(getTeams());
+  }, []);
+
+  useEffect(() => {
     if (!teams.length) {
       dispatch(getTeams());
     }
-  }, [dispatch]);
+  }, [dispatch, teams]);
 
   return (
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
-        <Typography variant="h3" component="h3">
+        <Typography variant="h4" component="h4">
           List of Teams
         </Typography>
-        <Button
-          variant="outlined"
-          href="/teams/add"
-          startIcon={
-            <GroupAddIcon />
-          }
-        >
-          Add a team
+        <Button variant="outlined" href="/teams/add" startIcon={<GroupAddIcon />}>
+          Create new team
         </Button>
       </Stack>
       <TableContainer>
@@ -62,7 +63,9 @@ const ListTeams = () => {
           <TableBody>
             {teams.map((team) => (
               <TableRow key={team._id}>
-                <TableCell>{team.name}</TableCell>
+                <TableCell>
+                  <Link to={`/team/${team._id}/projects`}>{team.name}</Link>
+                </TableCell>
                 <TableCell align="center">{team.projects.length}</TableCell>
                 {team.users.length && (
                   <Tooltip
@@ -83,13 +86,13 @@ const ListTeams = () => {
                 )}
                 <TableCell size="small" align="right">
                   <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
-                    <IconButton href={`/teams/user/${team._id}`} color="primary">
+                    <IconButton href={`/team/${team._id}/users`} color="primary">
                       <PersonAddIcon />
                     </IconButton>
-                    <IconButton color="warning" href={`/teams/update/${team._id}`}>
+                    <IconButton color="warning" href={`/team/${team._id}/edit`}>
                       <EditIcon />
                     </IconButton>
-                    <IconButton color="error" href={`/teams/user/${team._id}`}>
+                    <IconButton color="error">
                       <DeleteIcon />
                     </IconButton>
                   </Stack>

@@ -16,6 +16,10 @@ import ConnectedLayout from './components/Layouts/Connected/Connected.layout';
 import RequireAuth from './components/Providers/RequireAuth';
 import UpdateTeam from './pages/Teams/UpdateTeam/UpdateTeam';
 import AddTeam from './pages/Teams/AddTeam/AddTeam';
+import CreateProject from './pages/Projects/CreateProject/CreateProject';
+import TeamProjects from './pages/Projects/TeamProjects/TeamProjects';
+import AddUserToProject from './pages/Projects/AddUserToProject/AddUserToProject';
+import EditProject from './pages/Projects/EditProject/EditProject';
 
 const Router = () => {
   const mainRoutes = [
@@ -39,14 +43,16 @@ const Router = () => {
         </RequireAuth>
       ),
       children: [
-
         { path: '', element: <ListTeams /> },
-        { path: 'user/:teamID', element: <AddUserToTeam /> },
         { path: 'overview', element: <Overview /> },
         { path: 'teams', element: <ListTeams /> },
         { path: 'teams/add', element: <AddTeam /> },
-        { path: 'team/:teamID/update', element: <UpdateTeam /> },
+        { path: 'team/:teamID/edit', element: <UpdateTeam /> },
         { path: 'team/:teamID/users', element: <AddUserToTeam /> },
+        { path: 'team/:teamID/projects', element: <TeamProjects /> },
+        { path: 'team/:teamID/projects/add', element: <CreateProject /> },
+        { path: 'team/:teamID/project/:projectId/edit', element: <EditProject /> },
+        { path: 'team/:teamID/project/:projectId/users', element: <AddUserToProject /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
