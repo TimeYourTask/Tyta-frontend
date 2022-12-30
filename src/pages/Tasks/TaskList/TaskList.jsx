@@ -90,7 +90,11 @@ const TaskList = () => {
                       </IconButton>
                     </Stack>
                     {task.description && (
-                      <Typography variant="body2">{task.description}</Typography>
+                      <Typography variant="body2">
+                        {task.description.length > 50
+                          ? `${task.description.substring(0, 50)}...`
+                          : task.description}
+                      </Typography>
                     )}
                   </Card>
                 ))}
