@@ -154,7 +154,7 @@ const ToolBar = () => {
               py: 2,
             }}
             component={Link}
-            to="/manage-project"
+            to="/account"
           >
             <StyledListItemIcon>
               <SettingsIcon />
@@ -167,7 +167,7 @@ const ToolBar = () => {
               }}
               sx={{ my: 0 }}
             >
-              Settings
+              Personnal settings
             </ListItemText>
           </ListItemButton>
         </Grid>
