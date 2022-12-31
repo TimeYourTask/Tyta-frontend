@@ -143,7 +143,13 @@ const ListTeams = () => {
                         <IconButton color="warning" href={`/team/${team._id}/edit`}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton color="error">
+                        <IconButton
+                          color="error"
+                          onClick={() => {
+                            TeamsService.deleteTeam(team._id);
+                            setTeams(teams.filter((stateTeam) => stateTeam._id !== team._id));
+                          }}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </Stack>
