@@ -111,22 +111,26 @@ const ListTeams = () => {
                       <Link to={`/team/${team._id}/projects`}>{team.name}</Link>
                     </TableCell>
                     <TableCell align="center">{team.projects.length}</TableCell>
-                    {team.users.length && (
+                    {team.users.filter((user) => user.firstName).length ? (
                       <Tooltip
                         placement="right"
                         title={
                           <div>
-                            {team.users.map((user) => (
-                              <div key={user._id}>
-                                {capitalize(user.user.firstName)}
-                                {user.role === 'admin' ? ' (Admin)' : ''}
-                              </div>
-                            ))}
+                            {team.users
+                              .filter((user) => user.firstName)
+                              .map((user) => (
+                                <div key={user._id}>
+                                  {capitalize(user.user.firstName)}
+                                  {user.role === 'admin' ? ' (Admin)' : ''}
+                                </div>
+                              ))}
                           </div>
                         }
                       >
                         <TableCell align="center">{team.users.length}</TableCell>
                       </Tooltip>
+                    ) : (
+                      <TableCell align="center">{team.users.length}</TableCell>
                     )}
                     <TableCell size="small" align="right">
                       <Stack

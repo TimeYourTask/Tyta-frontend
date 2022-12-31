@@ -95,7 +95,11 @@ const AddUserToTeam = () => {
         >
           {selectableUsers.map((user) => (
             <MenuItem key={user._id} value={user} style={getStyles(user)}>
-              {capitalize(user.firstName)}
+              {user.firstName && `${capitalize(user.firstName)} `}
+              {user.lastName && `${capitalize(user.lastName)} `}
+              {`${user.firstName || user.lastname ? '(' : ''}${user.email}${
+                user.firstName || user.lastname ? ')' : ''
+              }`}
             </MenuItem>
           ))}
           {selectableUsers.length === 0 && (
