@@ -21,7 +21,7 @@ import {
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 
-import { requestResetPassword, resetPassword } from '../../store/actions/auth';
+import { requestResetPassword, resetPassword } from '../../store/actions';
 
 const ResetPassword = () => {
   const navigate = useNavigate();

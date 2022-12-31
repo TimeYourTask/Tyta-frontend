@@ -26,7 +26,7 @@ import {
 } from '@mui/icons-material';
 
 import LoginImg from '../../assets/login.webp';
-import { login } from '../../store/actions/auth';
+import { login } from '../../store/actions';
 
 const Login = () => {
   const [values, setValues] = React.useState({
@@ -115,11 +115,7 @@ const Login = () => {
                         onClick={showPassword}
                         edge="end"
                       >
-                        {values.showPassword ? (
-                          <VisibilityOffIcon />
-                        ) : (
-                          <VisibilityIcon />
-                        )}
+                        {values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                       </IconButton>
                     </InputAdornment>
                   }
@@ -163,11 +159,7 @@ const Login = () => {
           </Grid>
         </Box>
       </Grid>
-      <Grid
-        item
-        xs={5}
-        sx={{ overflow: 'hidden', display: { xs: 'none', md: 'block' } }}
-      >
+      <Grid item xs={5} sx={{ overflow: 'hidden', display: { xs: 'none', md: 'block' } }}>
         <Box
           component="img"
           alt="Night landscape"

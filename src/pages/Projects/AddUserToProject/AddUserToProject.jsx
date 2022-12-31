@@ -8,7 +8,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { formatName } from '../../../helpers/utils';
 import UsersService from '../../../store/services/users.service';
 import ProjectsService from '../../../store/services/projects.service';
-import { SET_NOTIFICATION } from '../../../store/actions/types';
+import { SET_NOTIFICATION } from '../../../store/actions';
 
 const AddUserToProject = () => {
   const { projectId } = useParams();

@@ -16,12 +16,13 @@ import {
   Grid,
   Box,
 } from '@mui/material';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import { AddCircle as AddCircleIcon } from '@mui/icons-material';
+import {
+  GroupAdd as GroupAddIcon,
+  PersonAdd as PersonAddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  AddCircle as AddCircleIcon,
+} from '@mui/icons-material';
 
 import ProjectEmptyStateImg from '../../../assets/project-empty-state.svg';
 

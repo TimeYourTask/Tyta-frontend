@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setNotification, clearNotification } from '../store/actions/notification';
+import { setNotification, clearNotification } from '../store/actions';
 
 const useNotification = () => {
   const dispatch = useDispatch();

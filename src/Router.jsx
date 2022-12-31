@@ -22,6 +22,7 @@ import AddUserToProject from './pages/Projects/AddUserToProject/AddUserToProject
 import EditProject from './pages/Projects/EditProject/EditProject';
 import TaskList from './pages/Tasks/TaskList/TaskList';
 import CreateTask from './pages/Tasks/CreateTask/CreateTask';
+import EditTask from './pages/Tasks/EditTask/EditTask';
 
 const Router = () => {
   const mainRoutes = [
@@ -55,7 +56,7 @@ const Router = () => {
         { path: 'team/:teamID/projects/add', element: <CreateProject /> },
         { path: 'team/:teamID/project/:projectId', element: <TaskList /> },
         { path: 'team/:teamID/project/:projectId/tasks/add', element: <CreateTask /> },
-        { path: 'task/:taskId/edit', element: <CreateTask /> },
+        { path: 'task/:taskId/edit', element: <EditTask /> },
         { path: 'team/:teamID/project/:projectId/edit', element: <EditProject /> },
         { path: 'team/:teamID/project/:projectId/users', element: <AddUserToProject /> },
       ],
