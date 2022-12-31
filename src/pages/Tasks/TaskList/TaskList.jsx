@@ -54,13 +54,13 @@ const TaskList = () => {
           <Typography variant="h4" component="h4">
             Tasks
           </Typography>
-          <Button variant="outlined" href="/tasks/add" startIcon={<AddCircleIcon />}>
+          <Button variant="outlined" href="tasks/add" startIcon={<AddCircleIcon />}>
             Create new task
           </Button>
         </Stack>
         <Grid container spacing={1}>
           {columns.map((column) => (
-            <Grid item xs={3}>
+            <Grid item key={column.param} xs={3}>
               <Column>
                 <Stack
                   direction="row"
@@ -74,14 +74,14 @@ const TaskList = () => {
                   </Typography>
                   <IconButton
                     aria-label="delete"
-                    href={`/tasks/add?status=${column.param}`}
+                    href={`tasks/add?status=${column.param}`}
                     size="small"
                   >
                     <AddCircleIcon fontSize="small" />
                   </IconButton>
                 </Stack>
                 {column.tasks.map((task) => (
-                  <Card sx={{ padding: 2, mb: 1 }}>
+                  <Card sx={{ padding: 2, mb: 1 }} key={task._id}>
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
                       <Typography>{task.title}</Typography>
 
