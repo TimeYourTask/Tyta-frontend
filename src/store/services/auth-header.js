@@ -4,6 +4,5 @@ export default function authHeader() {
   if (user && user.token) {
     return { Authorization: user.token };
   }
-  console.log('ok');
   return {};
 }
