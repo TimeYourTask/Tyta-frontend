@@ -19,6 +19,7 @@ import TasksService from '../../../store/services/tasks.service';
 import UsersService from '../../../store/services/users.service';
 import { SET_NOTIFICATION } from '../../../store/actions';
 import { status } from '../utils';
+import { formatName } from '../../../helpers/utils';
 
 const statusOptions = [
   {
@@ -107,7 +108,6 @@ const CreateTask = () => {
       ...assignments,
       ...values,
     };
-    console.log(payload);
 
     TasksService.createTask(payload).then(() => {
       dispatch({
@@ -180,7 +180,7 @@ const CreateTask = () => {
                 <FormControl fullWidth>
                   <Autocomplete
                     autoHighlight
-                    options={users.map((user) => ({ id: user._id, label: user.firstName }))}
+                    options={users.map((user) => ({ id: user._id, label: formatName(user) }))}
                     fullWidth
                     onChange={handleChange('assigned')}
                     renderInput={(params) => <TextField label="Assigned" {...params} />}
@@ -193,7 +193,7 @@ const CreateTask = () => {
                 <FormControl fullWidth>
                   <Autocomplete
                     autoHighlight
-                    options={users.map((user) => ({ id: user._id, label: user.firstName }))}
+                    options={users.map((user) => ({ id: user._id, label: formatName(user) }))}
                     fullWidth
                     onChange={handleChange('reporter')}
                     renderInput={(params) => <TextField label="Reporter" {...params} />}
