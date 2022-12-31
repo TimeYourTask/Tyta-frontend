@@ -54,7 +54,7 @@ const Router = () => {
         { path: 'team/:teamID/projects', element: <TeamProjects /> },
         { path: 'team/:teamID/projects/add', element: <CreateProject /> },
         { path: 'team/:teamID/project/:projectId', element: <TaskList /> },
-        { path: 'tasks/add', element: <CreateTask /> },
+        { path: 'team/:teamID/project/:projectId/tasks/add', element: <CreateTask /> },
         { path: 'task/:taskId/edit', element: <CreateTask /> },
         { path: 'team/:teamID/project/:projectId/edit', element: <EditProject /> },
         { path: 'team/:teamID/project/:projectId/users', element: <AddUserToProject /> },
