@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Button, FormControl, Typography, Autocomplete, TextField } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
+import { formatName } from '../../../helpers/utils';
 import UsersService from '../../../store/services/users.service';
 import ProjectsService from '../../../store/services/projects.service';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
@@ -89,7 +90,7 @@ const AddUserToProject = () => {
         <Autocomplete
           multiple
           autoHighlight
-          options={selectableUsers.map((user) => ({ id: user._id, label: user.firstName }))}
+          options={selectableUsers.map((user) => ({ id: user._id, label: formatName(user) }))}
           filterOptions={(options, value) =>
             options.filter((opt) => {
               const isSelected = selectedUsers.filter((user) => opt.id === user.id);

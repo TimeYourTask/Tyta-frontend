@@ -25,11 +25,8 @@ import { AddCircle as AddCircleIcon } from '@mui/icons-material';
 
 import ProjectEmptyStateImg from '../../../assets/project-empty-state.svg';
 
+import { capitalize } from '../../../helpers/utils';
 import TeamsService from '../../../store/services/teams.service';
-
-function capitalize(text) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
 
 const TeamEmptyState = () => (
   <Grid

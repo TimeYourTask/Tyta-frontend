@@ -26,14 +26,11 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 
+import { capitalize } from '../../../helpers/utils';
 import ProjectService from '../../../store/services/projects.service';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
 
 import ProjectEmptyStateImg from '../../../assets/project-empty-state.svg';
-
-function capitalize(text) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
 
 const ProjectEmptyState = ({ teamID }) => (
   <Grid
@@ -131,22 +128,26 @@ const TeamProjects = () => {
                           {project.name}
                         </Link>
                       </TableCell>
-                      {project.users.length && (
+                      {project.users.filter((user) => user.firstName).length ? (
                         <Tooltip
                           placement="right"
                           title={
                             <div>
-                              {project.users.map((user) => (
-                                <div key={user._id}>
-                                  {capitalize(user.user.firstName)}
-                                  {user.role === 'admin' ? ' (Admin)' : ''}
-                                </div>
-                              ))}
+                              {project.users
+                                .filter((user) => user.firstName)
+                                .map((user) => (
+                                  <div key={user._id}>
+                                    {capitalize(user.user.firstName)}
+                                    {user.role === 'admin' ? ' (Admin)' : ''}
+                                  </div>
+                                ))}
                             </div>
                           }
                         >
                           <TableCell align="center">{project.users.length}</TableCell>
                         </Tooltip>
+                      ) : (
+                        <TableCell align="center">{project.users.length}</TableCell>
                       )}
                       <TableCell size="small" align="right">
                         <Stack

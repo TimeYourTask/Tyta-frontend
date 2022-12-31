@@ -24,6 +24,7 @@ import {
   Replay as ReplayIcon,
 } from '@mui/icons-material';
 
+import { capitalize } from '../../../helpers/utils';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
 import ProjectsService from '../../../store/services/projects.service';
 
@@ -47,8 +48,6 @@ const EditProject = () => {
   useEffect(() => {
     data();
   }, []);
-
-  const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
   const updateProject = async () => {
     if (project.name.trim().length > 0) {
@@ -127,8 +126,8 @@ const EditProject = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>First name</TableCell>
-                  <TableCell>Last name</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Email</TableCell>
                   <TableCell>Role</TableCell>
                   <TableCell />
                 </TableRow>
@@ -141,8 +140,15 @@ const EditProject = () => {
                       background: user.deleted ? 'lightgray' : '',
                     }}
                   >
-                    <TableCell>{capitalize(user.user.firstName)}</TableCell>
-                    <TableCell>{capitalize(user.user.lastName)}</TableCell>
+                    {user.user.firstName || user.user.lastname ? (
+                      <TableCell>
+                        {user.user.firstName && capitalize(user.user.firstName)}{' '}
+                        {user.user.lastName && capitalize(user.user.lastName)}
+                      </TableCell>
+                    ) : (
+                      <TableCell>Not specified</TableCell>
+                    )}
+                    <TableCell>{user.user.email}</TableCell>
                     <TableCell>
                       <FormControl size="small">
                         <Select id="role" value={user.role} onChange={changeRole} name={user._id}>

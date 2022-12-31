@@ -22,6 +22,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import ClearIcon from '@mui/icons-material/Clear';
 import ReplayIcon from '@mui/icons-material/Replay';
 
+import { capitalize } from '../../../helpers/utils';
 import { updateTeam } from '../../../store/actions/teams';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
 import TeamsService from '../../../store/services/teams.service';
@@ -48,7 +49,6 @@ const AddTeam = () => {
     data();
   }, []);
 
-  const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
   const update = () => {
     if (teamName.trim().length > 0) {
       const tempUsers = users.filter((user) => !user.deleted);
@@ -116,8 +116,8 @@ const AddTeam = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>First name</TableCell>
-                <TableCell>Last name</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
                 <TableCell>Role</TableCell>
                 <TableCell />
               </TableRow>
@@ -130,8 +130,15 @@ const AddTeam = () => {
                     background: user.deleted ? 'lightgray' : '',
                   }}
                 >
-                  <TableCell>{capitalize(user.user.firstName)}</TableCell>
-                  <TableCell>{capitalize(user.user.lastName)}</TableCell>
+                  {user.user.firstName || user.user.lastname ? (
+                    <TableCell>
+                      {user.user.firstName && capitalize(user.user.firstName)}{' '}
+                      {user.user.lastName && capitalize(user.user.lastName)}
+                    </TableCell>
+                  ) : (
+                    <TableCell>Not specified</TableCell>
+                  )}
+                  <TableCell>{user.user.email}</TableCell>
                   <TableCell>
                     <FormControl size="small">
                       <Select id="role" value={user.role} onChange={changeRole} name={user._id}>
