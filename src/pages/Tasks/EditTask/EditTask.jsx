@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import {
   FormControl,
@@ -16,9 +16,10 @@ import {
 } from '@mui/material';
 
 import TasksService from '../../../store/services/tasks.service';
-import UsersService from '../../../store/services/users.service';
 import { SET_NOTIFICATION } from '../../../store/actions';
 import { status } from '../utils';
+import UsersService from '../../../store/services/users.service';
+import { formatName } from '../../../helpers/utils';
 
 const statusOptions = [
   {
@@ -38,35 +39,23 @@ const statusOptions = [
 const CreateTask = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { projectId } = useParams();
-  const [search] = useSearchParams();
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { taskId } = useParams();
 
-  const getDefaultStatus = () => {
-    const statusParam = search.get('status');
-
-    switch (statusParam) {
-      case 'not-started':
-        return status.NOT_STARTED;
-      case 'in-progress':
-        return status.IN_PROGRESS;
-      case 'done':
-        return status.DONE;
-
-      default:
-        break;
-    }
-    return null;
-  };
-
-  const [values, setValues] = React.useState({
-    status: getDefaultStatus() || 'NOT_STARTED',
-    reporter: { id: currentUser.id, label: currentUser.firstName },
-  });
+  const [values, setValues] = React.useState({});
   const [users, setUsers] = React.useState([]);
 
   const data = async () => {
-    setUsers(await UsersService.getUsers());
+    const fetchedUsers = await UsersService.getUsers();
+
+    const task = await TasksService.getOneTask(taskId);
+    const reporter = await UsersService.getOneUser(task.reporter);
+    const assigned = await UsersService.getOneUser(task.assigned);
+
+    task.reporter = { id: task.reporter, label: formatName(reporter) };
+    task.assigned = { id: task.assigned, label: formatName(assigned) };
+
+    setValues(task);
+    setUsers(fetchedUsers);
   };
 
   React.useEffect(() => {
@@ -103,17 +92,15 @@ const CreateTask = () => {
     }
 
     const payload = {
-      project: projectId,
       ...assignments,
       ...values,
     };
-    console.log(payload);
 
-    TasksService.createTask(payload).then(() => {
+    TasksService.updateTask(taskId, payload).then(() => {
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
-          message: `Task "${values.title}" successfully created!`,
+          message: `Task "${values.title}" successfully updated!`,
           type: 'success',
         },
       });
@@ -126,7 +113,7 @@ const CreateTask = () => {
   return (
     <Box>
       <Typography variant="h4" component="h4" sx={{ mb: 4 }}>
-        Create new task
+        Edit task - {values.title}
       </Typography>
       <Box component="form" onSubmit={() => handleSubmitForm} noValidate>
         <Grid container spacing={2} display="flex" flexDirection="column">
@@ -135,7 +122,7 @@ const CreateTask = () => {
               <InputLabel id="status-label">Status</InputLabel>
               <Select
                 labelId="status-label"
-                value={values.status}
+                value={values.status || status.NOT_STARTED}
                 onChange={handleChange('status')}
                 variant="filled"
               >
@@ -154,6 +141,7 @@ const CreateTask = () => {
                 placeholder="Name of the task"
                 label="Name*"
                 variant="outlined"
+                value={values.title || ''}
                 onChange={handleChange('title')}
               />
             </FormControl>
@@ -165,6 +153,7 @@ const CreateTask = () => {
                 placeholder="My little task description"
                 label="Description"
                 variant="outlined"
+                value={values.description || ''}
                 multiline
                 rows={3}
                 onChange={handleChange('description')}
@@ -180,7 +169,7 @@ const CreateTask = () => {
                 <FormControl fullWidth>
                   <Autocomplete
                     autoHighlight
-                    options={users.map((user) => ({ id: user._id, label: user.firstName }))}
+                    options={users.map((user) => ({ id: user._id, label: formatName(user) }))}
                     fullWidth
                     onChange={handleChange('assigned')}
                     renderInput={(params) => <TextField label="Assigned" {...params} />}
@@ -193,7 +182,7 @@ const CreateTask = () => {
                 <FormControl fullWidth>
                   <Autocomplete
                     autoHighlight
-                    options={users.map((user) => ({ id: user._id, label: user.firstName }))}
+                    options={users.map((user) => ({ id: user._id, label: formatName(user) }))}
                     fullWidth
                     onChange={handleChange('reporter')}
                     renderInput={(params) => <TextField label="Reporter" {...params} />}
@@ -215,7 +204,7 @@ const CreateTask = () => {
                 marginRight: 1,
               }}
             >
-              Create new task!
+              Edit this task
             </Button>
             <Button variant="outlined" color="error" onClick={() => navigate(-1)}>
               Cancel
