@@ -72,19 +72,20 @@ const TaskList = () => {
                   <Typography variant="body" component="h6" color="grey.700">
                     {column.title} - {column.tasks.length}
                   </Typography>
-                  <IconButton
-                    aria-label="delete"
-                    href={`tasks/add?status=${column.param}`}
-                    size="small"
-                  >
-                    <AddCircleIcon fontSize="small" />
-                  </IconButton>
+                  {column.param.toUpperCase() !== status.DONE && (
+                    <IconButton
+                      aria-label="add"
+                      href={`tasks/add?status=${column.param}`}
+                      size="small"
+                    >
+                      <AddCircleIcon fontSize="small" />
+                    </IconButton>
+                  )}
                 </Stack>
                 {column.tasks.map((task) => (
                   <Card sx={{ padding: 2, mb: 1 }} key={task._id}>
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
                       <Typography>{task.title}</Typography>
-
                       <IconButton aria-label="edit" href={`/task/${task._id}/edit`} size="small">
                         <EditIcon fontSize="small" />
                       </IconButton>
