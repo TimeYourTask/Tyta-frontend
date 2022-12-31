@@ -66,6 +66,18 @@ const AddUserToTeam = () => {
 
   const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
+  const formatName = (user) => {
+    let name = '';
+    if (user.firstName) name += `${capitalize(user.firstName)} `;
+    if (user.lastName) name += `${capitalize(user.lastName)} `;
+
+    if (user.firstName || user.firstName) {
+      name += `(${user.email})`;
+    } else name += user.email;
+
+    return name;
+  };
+
   return (
     <div className="add-user-to-team">
       <Typography variant="h4" component="h4">
@@ -88,18 +100,14 @@ const AddUserToTeam = () => {
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value.lastName} label={capitalize(value.firstName)} />
+                <Chip key={value.email} label={formatName(value)} />
               ))}
             </Box>
           )}
         >
           {selectableUsers.map((user) => (
             <MenuItem key={user._id} value={user} style={getStyles(user)}>
-              {user.firstName && `${capitalize(user.firstName)} `}
-              {user.lastName && `${capitalize(user.lastName)} `}
-              {`${user.firstName || user.lastname ? '(' : ''}${user.email}${
-                user.firstName || user.lastname ? ')' : ''
-              }`}
+              {formatName(user)}
             </MenuItem>
           ))}
           {selectableUsers.length === 0 && (
