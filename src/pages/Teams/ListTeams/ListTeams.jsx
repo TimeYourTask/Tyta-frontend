@@ -34,12 +34,6 @@ const ListTeams = () => {
     dispatch(getTeams());
   }, []);
 
-  useEffect(() => {
-    if (!teams.length) {
-      dispatch(getTeams());
-    }
-  }, [dispatch, teams]);
-
   return (
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
