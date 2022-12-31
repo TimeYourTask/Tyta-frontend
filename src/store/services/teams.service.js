@@ -15,10 +15,14 @@ const updateTeam = (team) => axiosInstance.put(`/team/${team.id}`, {
 const createTeam = (teamName) => axiosInstance.post('/team', { name: teamName })
   .then((res) => res.data.newTeam);
 
+const deleteTeam = (teamId) => axiosInstance.delete(`/team/${teamId}`)
+  .then((res) => res.data);
+
 export default {
   getTeams,
   addUserToTeam,
   getOneTeam,
   updateTeam,
   createTeam,
+  deleteTeam,
 };
