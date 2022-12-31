@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
@@ -12,9 +12,11 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Autocomplete,
 } from '@mui/material';
 
-import TaskService from '../../../store/services/tasks.service';
+import TasksService from '../../../store/services/tasks.service';
+import UsersService from '../../../store/services/users.service';
 import { SET_NOTIFICATION } from '../../../store/actions/types';
 import { status } from '../utils';
 
@@ -38,6 +40,7 @@ const CreateTask = () => {
   const dispatch = useDispatch();
   const { projectId } = useParams();
   const [search] = useSearchParams();
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const getDefaultStatus = () => {
     const statusParam = search.get('status');
@@ -56,17 +59,29 @@ const CreateTask = () => {
     return null;
   };
 
-  const [values, setValues] = React.useState({ status: getDefaultStatus() || 'NOT_STARTED' });
+  const [values, setValues] = React.useState({
+    status: getDefaultStatus() || 'NOT_STARTED',
+    reporter: { id: currentUser.id, label: currentUser.firstName },
+  });
+  const [users, setUsers] = React.useState([]);
 
-  const handleChange = (name) => (event) => {
+  const data = async () => {
+    setUsers(await UsersService.getUsers());
+  };
+
+  React.useEffect(() => {
+    data();
+  }, []);
+
+  const handleChange = (name) => (event, value) => {
     setValues({
       ...values,
-      [name]: event.target.value,
+      [name]: event.target.value || value,
     });
   };
 
   const isValid = () => {
-    if (values.title === '') {
+    if (!values.title || values.title === '') {
       return false;
     }
     return true;
@@ -77,12 +92,24 @@ const CreateTask = () => {
 
     if (!isValid()) return false;
 
+    let assignments = {};
+    if (values.assigned || values.reporter) {
+      assignments = {
+        ...(values.assigned && { assigned: values.assigned.id }),
+        ...(values.reporter && { reporter: values.reporter.id }),
+      };
+      delete values.assigned;
+      delete values.reporter;
+    }
+
     const payload = {
       project: projectId,
+      ...assignments,
       ...values,
     };
+    console.log(payload);
 
-    TaskService.createTask(payload).then(() => {
+    TasksService.createTask(payload).then(() => {
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
@@ -98,17 +125,34 @@ const CreateTask = () => {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 2 }}>
+      <Typography variant="h4" component="h4" sx={{ mb: 4 }}>
         Create new task
       </Typography>
       <Box component="form" onSubmit={() => handleSubmitForm} noValidate>
         <Grid container spacing={2} display="flex" flexDirection="column">
+          <Grid item sm={3}>
+            <FormControl variant="filled" fullWidth>
+              <InputLabel id="status-label">Status</InputLabel>
+              <Select
+                labelId="status-label"
+                value={values.status}
+                onChange={handleChange('status')}
+                variant="filled"
+              >
+                {statusOptions.map((item) => (
+                  <MenuItem value={item.value} key={item.value}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item>
             <FormControl required fullWidth>
               <TextField
                 type="text"
                 placeholder="Name of the task"
-                label="Name"
+                label="Name*"
                 variant="outlined"
                 onChange={handleChange('title')}
               />
@@ -128,21 +172,37 @@ const CreateTask = () => {
             </FormControl>
           </Grid>
           <Grid item>
-            <FormControl>
-              <InputLabel id="status-label">Status</InputLabel>
-              <Select
-                label="Status"
-                labelId="status-label"
-                value={values.status}
-                onChange={handleChange('status')}
-              >
-                {statusOptions.map((item) => (
-                  <MenuItem value={item.value} key={item.value}>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Typography variant="h6" component="h6" sx={{ mb: 1, mt: 1 }}>
+              Other parameters
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item sm={6}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    autoHighlight
+                    options={users.map((user) => ({ id: user._id, label: user.firstName }))}
+                    fullWidth
+                    onChange={handleChange('assigned')}
+                    renderInput={(params) => <TextField label="Assigned" {...params} />}
+                    value={values.assigned || null}
+                    isOptionEqualToValue={(option, value) => option.label === value.label}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item sm={6}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    autoHighlight
+                    options={users.map((user) => ({ id: user._id, label: user.firstName }))}
+                    fullWidth
+                    onChange={handleChange('reporter')}
+                    renderInput={(params) => <TextField label="Reporter" {...params} />}
+                    value={values.reporter || null}
+                    isOptionEqualToValue={(option, value) => option.label === value.label}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item>
             <Button
