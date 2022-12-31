@@ -64,12 +64,22 @@ const Register = () => {
     // TODO: Send an alert for register
   };
 
+  const isEmail = (val) => {
+    const regEmail =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!regEmail.test(val)) {
+      return true;
+    }
+    return false;
+  };
+
   const isValid = () => {
     if (
       values.email === '' ||
       values.repeatPassword === '' ||
       values.password === '' ||
-      !values.cgu
+      !values.cgu ||
+      isEmail(values.email)
     ) {
       return false;
     }
