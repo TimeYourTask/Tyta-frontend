@@ -51,8 +51,17 @@ const CreateTask = () => {
     const reporter = await UsersService.getOneUser(task.reporter);
     const assigned = await UsersService.getOneUser(task.assigned);
 
-    task.reporter = { id: task.reporter, label: formatName(reporter) };
-    task.assigned = { id: task.assigned, label: formatName(assigned) };
+    if (reporter) {
+      task.reporter = { id: task.reporter, label: formatName(reporter) };
+    } else {
+      task.reporter = { id: task.reporter, label: 'Deleted user' };
+    }
+
+    if (assigned) {
+      task.assigned = { id: task.assigned, label: formatName(assigned) };
+    } else {
+      task.assigned = { id: task.assigned, label: 'Deleted user' };
+    }
 
     setValues(task);
     setUsers(fetchedUsers);

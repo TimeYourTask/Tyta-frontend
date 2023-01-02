@@ -5,7 +5,7 @@ const formatName = (user) => {
   if (user.firstName) name += `${capitalize(user.firstName)} `;
   if (user.lastName) name += `${capitalize(user.lastName)} `;
 
-  if (user.firstName || user.firstName) {
+  if (user.firstName || user.lastName) {
     name += `(${user.email})`;
   } else name += user.email;
 
