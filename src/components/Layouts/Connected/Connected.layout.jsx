@@ -9,6 +9,7 @@ import { KeyboardArrowRight as OpenIcon } from '@mui/icons-material';
 
 import Header from '../../Sections/Header/Header';
 import Toolbar from '../../Sections/Toolbar/Toolbar';
+import TaskDialog from '../../../pages/Tasks/TaskDialog/TaskDialog';
 
 const drawerWidth = 240;
 
@@ -38,6 +39,7 @@ const ConnectedLayout = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
+      <TaskDialog />
       <Header sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} />
       <Box sx={{ height: '100vh' }}>
         <Drawer
