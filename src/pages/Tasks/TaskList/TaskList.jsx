@@ -6,9 +6,9 @@ import { styled } from '@mui/material/styles';
 
 import { AddCircle as AddCircleIcon, Edit as EditIcon } from '@mui/icons-material';
 
+import openTaskDialog from '../../../helpers/openTaskDialog';
 import TasksService from '../../../store/services/tasks.service';
 import { status } from '../utils';
-import openTaskDialog from '../../../helpers/openTaskDialog';
 
 const Column = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.grey[100],
@@ -92,7 +92,7 @@ const TaskList = () => {
                       <Stack direction="row" justifyContent="space-between" alignItems="center">
                         <Typography>{task.title}</Typography>
 
-                        <IconButton aria-label="edit" href={`/task/${task._id}/edit`} size="small">
+                        <IconButton onClick={(e) => e.stopPropagation()} href={`/task/${task._id}/edit`} aria-label="edit" size="small">
                           <EditIcon fontSize="small" />
                         </IconButton>
                       </Stack>
