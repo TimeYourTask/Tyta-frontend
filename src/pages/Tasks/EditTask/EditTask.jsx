@@ -54,13 +54,13 @@ const CreateTask = () => {
     if (reporter) {
       task.reporter = { id: task.reporter, label: formatName(reporter) };
     } else {
-      task.reporter = { id: task.reporter, label: 'Deleted user' };
+      task.reporter = null;
     }
 
     if (assigned) {
       task.assigned = { id: task.assigned, label: formatName(assigned) };
     } else {
-      task.assigned = { id: task.assigned, label: 'Deleted user' };
+      task.assigned = null;
     }
 
     setValues(task);

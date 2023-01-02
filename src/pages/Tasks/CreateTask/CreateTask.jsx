@@ -62,7 +62,14 @@ const CreateTask = () => {
 
   const [values, setValues] = React.useState({
     status: getDefaultStatus() || 'NOT_STARTED',
-    reporter: { id: currentUser.id, label: currentUser.firstName },
+    reporter: {
+      id: currentUser.id,
+      label: currentUser.firstName ? currentUser.firstName : currentUser.email,
+    },
+    assigned: {
+      id: currentUser.id,
+      label: currentUser.firstName ? currentUser.firstName : currentUser.email,
+    },
   });
   const [users, setUsers] = React.useState([]);
 
