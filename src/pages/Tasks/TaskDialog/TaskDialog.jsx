@@ -2,7 +2,7 @@ import { Box, Card, Dialog, DialogContent, DialogTitle, Paper, Skeleton, Slide, 
 import { styled } from '@mui/material/styles';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { capitalize, formatDate } from '../../../helpers/utils';
+import { capitalize, formatDate, timeDifference } from '../../../helpers/utils';
 import { handleOpenTaskDialog } from '../../../store/reducers/taskDialog';
 import { status } from '../utils';
 
@@ -85,19 +85,33 @@ const TaskDialog = () => {
                 <Typography variant="subtitle1" fontWeight={600}>Description</Typography>
                 <Typography
                   variant="body1"
-                  sx={{ p: 1, borderRadius: '4px', ':hover': { backgroundColor: '#EBECF0' } }}
+                  sx={{
+                    p: 1,
+                    borderRadius: '4px',
+                    maxHeight: '300px',
+                    overflow: 'hidden visible',
+                    ':hover': {
+                      backgroundColor: '#EBECF0',
+                    },
+                  }}
                 >
                   {taskData.description || 'No description...'}
                 </Typography>
               </Box>
 
-              <Column>
+              <Column sx={{ maxHeight: '300px', overflow: 'hidden visible' }}>
                 <Typography variant="body" component="h6" color="grey.700" mb={1} mx={1}>
                   Timers
                 </Typography>
                 {taskData.timer
                   ? taskData.timer.map((timer) => (
                     <Card sx={{ mb: 1, p: 2 }} key={timer._id}>
+                      <Stack direction="row">
+                        <Typography variant="subtitle1" fontWeight={600}>Time:</Typography>
+                        <Typography variant="body1" sx={{ mx: 1 }}>
+                          {timer.end_date ? timeDifference(new Date(timer.start_date), new Date(timer.end_date)) : 'Timer is running'}
+                        </Typography>
+                      </Stack>
                       <Stack direction="row">
                         <Typography variant="subtitle1" fontWeight={600}>Start:</Typography>
                         <Typography variant="body1" sx={{ mx: 1 }}>{formatDate(new Date(timer.start_date))}</Typography>
