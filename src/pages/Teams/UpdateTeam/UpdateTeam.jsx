@@ -23,8 +23,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ReplayIcon from '@mui/icons-material/Replay';
 
 import { capitalize } from '../../../helpers/utils';
-import { updateTeam } from '../../../store/actions/teams';
-import { SET_NOTIFICATION } from '../../../store/actions/types';
+import { updateTeam, SET_NOTIFICATION } from '../../../store/actions';
 import TeamsService from '../../../store/services/teams.service';
 
 const AddTeam = () => {

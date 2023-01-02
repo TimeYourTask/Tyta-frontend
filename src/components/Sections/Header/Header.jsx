@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { logout } from '../../../store/actions/auth';
+import { logout } from '../../../store/actions';
 import useNotification from '../../../hooks/useNotifications';
 
 const Header = ({ ...props }) => {

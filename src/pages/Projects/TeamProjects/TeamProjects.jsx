@@ -28,7 +28,7 @@ import {
 
 import { capitalize } from '../../../helpers/utils';
 import ProjectService from '../../../store/services/projects.service';
-import { SET_NOTIFICATION } from '../../../store/actions/types';
+import { SET_NOTIFICATION } from '../../../store/actions';
 
 import ProjectEmptyStateImg from '../../../assets/project-empty-state.svg';
 

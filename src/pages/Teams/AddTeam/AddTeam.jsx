@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, FormControl, TextField, Typography, Grid } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
-import { createTeam } from '../../../store/actions/teams';
-import { SET_NOTIFICATION } from '../../../store/actions/types';
+import { createTeam, SET_NOTIFICATION } from '../../../store/actions';
 
 const AddTeam = () => {
   const [name, setName] = useState('');

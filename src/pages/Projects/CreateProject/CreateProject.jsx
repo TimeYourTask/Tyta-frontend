@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FormControl, Grid, TextField, Button, Box, Typography } from '@mui/material';
 
 import ProjectService from '../../../store/services/projects.service';
-import { SET_NOTIFICATION } from '../../../store/actions/types';
+import { SET_NOTIFICATION } from '../../../store/actions';
 
 const CreateProject = () => {
   const navigate = useNavigate();

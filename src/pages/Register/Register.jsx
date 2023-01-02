@@ -27,7 +27,7 @@ import {
 } from '@mui/icons-material';
 
 import RegisterImg from '../../assets/register.webp';
-import { register } from '../../store/actions/auth';
+import { register } from '../../store/actions';
 
 const Register = () => {
   const [values, setValues] = React.useState({
