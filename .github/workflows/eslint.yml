@@ -1,4 +1,4 @@
-name: Lint
+name: TYTA
 on: push
 
 env:
@@ -6,7 +6,7 @@ env:
 
 jobs:
  linting:
-   name: Linting 
+   name: CI - ESLint 
    runs-on: ubuntu-latest
    steps:
      - name: Install NodeJS
