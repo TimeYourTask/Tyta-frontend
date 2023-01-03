@@ -6,12 +6,12 @@ import { Button, FormControl, Typography, Autocomplete, TextField } from '@mui/m
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 import { formatName } from '../../../helpers/utils';
-import UsersService from '../../../store/services/users.service';
+import TeamService from '../../../store/services/teams.service';
 import ProjectsService from '../../../store/services/projects.service';
 import { SET_NOTIFICATION } from '../../../store/actions';
 
 const AddUserToProject = () => {
-  const { projectId } = useParams();
+  const { projectId, teamID } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const AddUserToProject = () => {
   let project = {};
 
   const data = async () => {
-    users = await UsersService.getUsers();
+    users = await TeamService.getUserOfTeam(teamID);
     project = await ProjectsService.getOneProject(projectId);
 
     if (users && project) {
