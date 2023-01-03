@@ -5,8 +5,18 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
-    ...authHeader(),
   },
 });
+
+// Add a request interceptor
+instance.interceptors.request.use((config) => {
+  config.headers = {
+    ...config.headers,
+    ...authHeader(),
+  };
+
+  return config;
+}, (error) => Promise.reject(error)
+);
 
 export default instance;

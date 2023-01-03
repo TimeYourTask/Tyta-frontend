@@ -1,11 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { Button, Card, CardActionArea, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Grid, Stack, Button, Typography, Paper, Card, IconButton } from '@mui/material';
 
 import { AddCircle as AddCircleIcon, Edit as EditIcon } from '@mui/icons-material';
 
+import openTaskDialog from '../../../helpers/openTaskDialog';
 import TasksService from '../../../store/services/tasks.service';
 import { status } from '../utils';
 
@@ -83,20 +84,26 @@ const TaskList = () => {
                   )}
                 </Stack>
                 {column.tasks.map((task) => (
-                  <Card sx={{ padding: 2, mb: 1 }} key={task._id}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center">
-                      <Typography>{task.title}</Typography>
-                      <IconButton aria-label="edit" href={`/task/${task._id}/edit`} size="small">
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                    </Stack>
-                    {task.description && (
-                      <Typography variant="body2">
-                        {task.description.length > 50
-                          ? `${task.description.substring(0, 50)}...`
-                          : task.description}
-                      </Typography>
-                    )}
+                  <Card sx={{ mb: 1 }} key={task._id}>
+                    <CardActionArea
+                      sx={{ padding: 2 }}
+                      onClick={() => openTaskDialog(task._id)}
+                    >
+                      <Stack direction="row" justifyContent="space-between" alignItems="center">
+                        <Typography>{task.title}</Typography>
+
+                        <IconButton onClick={(e) => e.stopPropagation()} href={`/task/${task._id}/edit`} aria-label="edit" size="small">
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                      </Stack>
+                      {task.description && (
+                        <Typography variant="body2">
+                          {task.description.length > 50
+                            ? `${task.description.substring(0, 50)}...`
+                            : task.description}
+                        </Typography>
+                      )}
+                    </CardActionArea>
                   </Card>
                 ))}
               </Column>
