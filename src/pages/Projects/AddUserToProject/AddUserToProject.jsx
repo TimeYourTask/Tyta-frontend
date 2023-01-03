@@ -11,8 +11,7 @@ import ProjectsService from '../../../store/services/projects.service';
 import { SET_NOTIFICATION } from '../../../store/actions';
 
 const AddUserToProject = () => {
-  const { projectId } = useParams();
-  const { teamID } = useParams();
+  const { projectId, teamID } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
