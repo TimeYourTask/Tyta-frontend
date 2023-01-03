@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 
 import TasksService from '../../../store/services/tasks.service';
-import UsersService from '../../../store/services/users.service';
+import ProjectsService from '../../../store/services/projects.service';
 import { SET_NOTIFICATION } from '../../../store/actions';
 import { status } from '../utils';
 import { formatName } from '../../../helpers/utils';
@@ -74,7 +74,7 @@ const CreateTask = () => {
   const [users, setUsers] = React.useState([]);
 
   const data = async () => {
-    setUsers(await UsersService.getUsers());
+    setUsers(await ProjectsService.getUserOfProject(projectId));
   };
 
   React.useEffect(() => {
