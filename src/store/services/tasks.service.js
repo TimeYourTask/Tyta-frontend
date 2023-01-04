@@ -27,6 +27,8 @@ const startTimer = (taskId) => axiosInstance.post(`/task/${taskId}/start`).then(
 
 const endTimer = (taskId) => axiosInstance.post(`/task/${taskId}/end`).then((res) => res.data).catch((err) => err.data);
 
+const getUserTasks = () => axiosInstance.get('/tasks/user/').then((res) => res.data).catch((err) => err.data);
+
 export default {
   createTask,
   updateTask,
@@ -35,4 +37,5 @@ export default {
   getProjectTasks,
   startTimer,
   endTimer,
+  getUserTasks,
 };
