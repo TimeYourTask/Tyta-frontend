@@ -1,9 +1,11 @@
-import { Box, Card, Dialog, DialogContent, DialogTitle, Paper, Skeleton, Slide, Stack, Typography } from '@mui/material';
+import { Pause as PauseIcon, PlayArrow as StartIcon } from '@mui/icons-material';
+import { Box, Button, Card, Dialog, DialogContent, DialogTitle, Paper, Skeleton, Slide, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalize, formatDate, timeDifference } from '../../../helpers/utils';
-import { handleOpenTaskDialog } from '../../../store/reducers/taskDialog';
+import { handleOpenTaskDialog, handleTaskDialogData, handleTimerStatusTaskDialog } from '../../../store/reducers/taskDialog';
+import tasksService from '../../../store/services/tasks.service';
 import { status } from '../utils';
 
 const Column = styled(Paper)(({ theme }) => ({
@@ -18,7 +20,7 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="down" ref=
 
 const TaskDialog = () => {
   const dispatch = useDispatch();
-  const { open, loading, taskData } = useSelector((state) => state.taskDialog);
+  const { open, loading, taskData, timerStatus } = useSelector((state) => state.taskDialog);
 
   const renderStatusModal = (taskStatus) => {
     switch (taskStatus) {
@@ -58,6 +60,27 @@ const TaskDialog = () => {
     }
   };
 
+  const updateTaskData = (isUpdate) => {
+    const newTask = {
+      ...taskData,
+      timer: isUpdate.result.time,
+    };
+    dispatch(handleTaskDialogData(newTask));
+    dispatch(handleTimerStatusTaskDialog(!timerStatus));
+  };
+
+  const startTimer = async () => {
+    const isUpdate = await tasksService.startTimer(taskData._id);
+
+    if (isUpdate) updateTaskData(isUpdate);
+  };
+
+  const endTimer = async () => {
+    const isUpdate = await tasksService.endTimer(taskData._id);
+
+    if (isUpdate) updateTaskData(isUpdate);
+  };
+
   return (
     <Dialog
       open={open}
@@ -75,8 +98,17 @@ const TaskDialog = () => {
         <Stack sx={{ width: '900px' }} direction="row" justifyContent="space-between">
           <Box sx={{ flexGrow: 1 }}>
             <DialogTitle>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="h5">{capitalize(taskData.title)}</Typography>
+              <Stack direction="row">
+                <Typography flexGrow={1} variant="h5">{capitalize(taskData.title)}</Typography>
+                {timerStatus ? (
+                  <Button variant="contained" onClick={startTimer} color="success" sx={{ mx: 2, borderRadius: '50%', p: 1, minWidth: 'unset' }}>
+                    <StartIcon />
+                  </Button>
+                ) : (
+                  <Button variant="contained" onClick={endTimer} color="error" sx={{ mx: 2, borderRadius: '50%', p: 1, minWidth: 'unset' }}>
+                    <PauseIcon />
+                  </Button>
+                )}
                 {renderStatusModal(taskData.status)}
               </Stack>
             </DialogTitle>

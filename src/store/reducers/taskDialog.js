@@ -6,6 +6,7 @@ const taskDialog = createSlice({
     open: false,
     loading: true,
     taskData: null,
+    timerStatus: true,
   },
   reducers: {
     handleOpenTaskDialog(state, action) {
@@ -17,6 +18,9 @@ const taskDialog = createSlice({
     handleTaskDialogData(state, action) {
       state.taskData = action.payload;
     },
+    handleTimerStatusTaskDialog(state, action) {
+      state.timerStatus = action.payload;
+    },
   },
 });
 
@@ -24,6 +28,7 @@ export const {
   handleOpenTaskDialog,
   handleLoadingTaskDialog,
   handleTaskDialogData,
+  handleTimerStatusTaskDialog,
 } = taskDialog.actions;
 
 export default taskDialog.reducer;
