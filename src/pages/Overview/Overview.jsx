@@ -20,7 +20,7 @@ const Overview = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [teamCount, setTeamCount] = React.useState(0);
-  const [timeTask, setTimeTask] = React.useState({});
+  const [timeTask, setTimeTask] = React.useState(null);
 
   const fetchRunningTask = async () => {
     await TimeTaskService.getUserTimer().then((data) => setTimeTask(data));
