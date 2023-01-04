@@ -1,50 +1,102 @@
 import React from 'react';
 
 import { useTheme } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
+
 import { Typography, Grid, Card, CardActions, Button, CardContent, Tooltip } from '@mui/material';
 import {
   Pause as PauseIcon,
   PlayArrow as PlayArrowIcon,
   Info as InfoIcon,
 } from '@mui/icons-material';
+import { SET_NOTIFICATION } from '../../store/actions/types';
 
 import TeamsService from '../../store/services/teams.service';
+import TimeTaskService from '../../store/services/timeTask.service';
+import { convertMsToTime } from '../../helpers/utils';
+import openTaskDialog from '../../helpers/openTaskDialog';
 
 const Overview = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [teamCount, setTeamCount] = React.useState(0);
+  const [timeTask, setTimeTask] = React.useState({});
+
+  const fetchRunningTask = async () => {
+    await TimeTaskService.getUserTimer().then((data) => setTimeTask(data));
+  };
 
   React.useEffect(() => {
     const fetchData = async () => {
       const fetchTeamsSize = await TeamsService.getTeams();
       setTeamCount(fetchTeamsSize.length);
+      fetchRunningTask();
     };
     fetchData();
   }, []);
+
+  React.useEffect(() => {
+    const time = setInterval(() => {
+      if (timeTask?.isRunning) {
+        setTimeTask((prevTime) => ({
+          task_id: prevTime.task_id,
+          isRunning: true,
+          total: prevTime.total + 1000,
+          timeTask: prevTime.timeTask,
+        }));
+      }
+    }, 1000);
+    return () => clearInterval(time);
+  }, [timeTask]);
 
   const statsBlocks = [
     {
       key: 'in-progress',
       title: 'Ticket in Progress',
       helpText: 'You working on this ticket',
-      content: '10min20s',
+      content: convertMsToTime(timeTask?.total),
       actions: [
         {
-          key: 'pause',
-          icon: <PauseIcon />,
-          action: () => alert('Pause'),
-          text: 'Pause',
-        },
-        {
+          text: 'Start',
           key: 'start',
           icon: <PlayArrowIcon />,
-          action: () => alert('Start'),
-          text: 'Start',
+          action: async () => {
+            await TimeTaskService.startTimer(timeTask.task_id).then(() => {
+              dispatch({
+                type: SET_NOTIFICATION,
+                payload: {
+                  message: 'Task successfully started!',
+                  type: 'success',
+                },
+              });
+              fetchRunningTask();
+            });
+          },
+          disabled: timeTask?.isRunning,
         },
         {
-          key: 'all-tickets',
-          link: '/tickets/TEST',
+          text: 'Pause',
+          key: 'pause',
+          icon: <PauseIcon />,
+          action: async () => {
+            await TimeTaskService.endTimer(timeTask.task_id).then(() => {
+              dispatch({
+                type: SET_NOTIFICATION,
+                payload: {
+                  message: 'Task successfully paused!',
+                  type: 'success',
+                },
+              });
+              fetchRunningTask();
+            });
+          },
+          disabled: timeTask && !timeTask?.isRunning,
+        },
+        {
           text: 'See this ticket',
+          key: 'all-tickets',
+          action: () => openTaskDialog(timeTask.task_id),
+          disabled: !timeTask,
         },
       ],
       style: {
@@ -58,9 +110,9 @@ const Overview = () => {
       content: teamCount,
       actions: [
         {
+          text: 'See your teams',
           key: 'all-teams',
           link: '/teams',
-          text: 'See your teams',
         },
       ],
       style: {
@@ -75,9 +127,9 @@ const Overview = () => {
       content: 10,
       actions: [
         {
+          text: 'Open a random ticket',
           key: 'all-projects',
           link: '/projects',
-          text: 'Open a random ticket',
         },
       ],
       style: {
@@ -124,7 +176,13 @@ const Overview = () => {
               </CardContent>
               <CardActions sx={{ backgroundColor: theme.palette.grey[50] }}>
                 {block.actions.map((action) => (
-                  <Button key={action.key} size="small" href={action.link} onClick={action.action}>
+                  <Button
+                    key={action.key}
+                    size="small"
+                    href={action.link}
+                    onClick={action.action}
+                    disabled={action.disabled}
+                  >
                     {action.text}
                   </Button>
                 ))}
