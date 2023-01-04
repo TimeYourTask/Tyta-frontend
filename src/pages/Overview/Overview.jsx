@@ -72,7 +72,7 @@ const Overview = () => {
               fetchRunningTask();
             });
           },
-          disabled: timeTask?.isRunning,
+          disabled: !timeTask || timeTask.isRunning,
         },
         {
           text: 'Pause',
@@ -90,7 +90,7 @@ const Overview = () => {
               fetchRunningTask();
             });
           },
-          disabled: timeTask && !timeTask?.isRunning,
+          disabled: !timeTask || !timeTask.isRunning,
         },
         {
           text: 'See this ticket',
