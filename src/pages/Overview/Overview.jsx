@@ -54,7 +54,7 @@ const Overview = () => {
       key: 'in-progress',
       title: 'Ticket in Progress',
       helpText: 'You working on this ticket',
-      content: convertMsToTime(timeTask?.total),
+      content: timeTask ? convertMsToTime(timeTask?.total) : 'No task yet!',
       actions: [
         {
           text: 'Start',
