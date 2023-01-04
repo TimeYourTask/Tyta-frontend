@@ -21,13 +21,9 @@ const Overview = () => {
   const dispatch = useDispatch();
   const [teamCount, setTeamCount] = React.useState(0);
   const [timeTask, setTimeTask] = React.useState({});
-  const [isRunning, setIsRunning] = React.useState(false);
 
   const fetchRunningTask = async () => {
-    await TimeTaskService.getUserTimer().then((data) => {
-      if (data.isRunning) setIsRunning(true);
-      return setTimeTask(data);
-    });
+    await TimeTaskService.getUserTimer().then((data) => setTimeTask(data));
   };
 
   React.useEffect(() => {
@@ -37,9 +33,11 @@ const Overview = () => {
       fetchRunningTask();
     };
     fetchData();
+  }, []);
+
+  React.useEffect(() => {
     const time = setInterval(() => {
-      console.log(timeTask, isRunning);
-      if (isRunning) {
+      if (timeTask?.isRunning) {
         setTimeTask((prevTime) => ({
           task_id: prevTime.task_id,
           isRunning: true,
@@ -49,7 +47,7 @@ const Overview = () => {
       }
     }, 1000);
     return () => clearInterval(time);
-  }, []);
+  }, [timeTask]);
 
   const statsBlocks = [
     {
@@ -63,8 +61,6 @@ const Overview = () => {
           key: 'start',
           icon: <PlayArrowIcon />,
           action: async () => {
-            setIsRunning((prev) => !prev);
-            console.log(isRunning);
             await TimeTaskService.startTimer(timeTask.task_id).then(() => {
               dispatch({
                 type: SET_NOTIFICATION,
@@ -76,7 +72,7 @@ const Overview = () => {
               fetchRunningTask();
             });
           },
-          disabled: isRunning,
+          disabled: timeTask?.isRunning,
         },
         {
           text: 'Pause',
@@ -92,10 +88,9 @@ const Overview = () => {
                 },
               });
               fetchRunningTask();
-              setIsRunning(false);
             });
           },
-          disabled: !isRunning,
+          disabled: timeTask && !timeTask?.isRunning,
         },
         {
           text: 'See this ticket',
