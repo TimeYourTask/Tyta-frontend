@@ -15,15 +15,21 @@ import TeamsService from '../../store/services/teams.service';
 import TimeTaskService from '../../store/services/timeTask.service';
 import { convertMsToTime } from '../../helpers/utils';
 import openTaskDialog from '../../helpers/openTaskDialog';
+import TasksService from '../../store/services/tasks.service';
 
 const Overview = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [teamCount, setTeamCount] = React.useState(0);
-  const [timeTask, setTimeTask] = React.useState(null);
+  const [timeTask, setTimeTask] = React.useState(undefined);
+  const [taskCount, setTaskCount] = React.useState(0);
 
   const fetchRunningTask = async () => {
     await TimeTaskService.getUserTimer().then((data) => setTimeTask(data));
+  };
+
+  const fetchUserTasks = async () => {
+    await TasksService.getUserTasks().then((data) => setTaskCount(data.length));
   };
 
   React.useEffect(() => {
@@ -31,6 +37,7 @@ const Overview = () => {
       const fetchTeamsSize = await TeamsService.getTeams();
       setTeamCount(fetchTeamsSize.length);
       fetchRunningTask();
+      fetchUserTasks();
     };
     fetchData();
   }, []);
@@ -124,12 +131,13 @@ const Overview = () => {
       key: 'projects',
       title: 'Your current or pending tickets',
       helpText: 'Number of open or pending tickets assigned to you',
-      content: 10,
+      content: taskCount,
       actions: [
         {
           text: 'Open a random ticket',
           key: 'all-projects',
           link: '/projects',
+          disabled: !taskCount,
         },
       ],
       style: {
