@@ -24,7 +24,7 @@ export const register =
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
-          message: res.message,
+          message: 'Welcome! You can create your first team now!',
           type: 'success',
         },
       });
@@ -66,7 +66,7 @@ export const login =
       dispatch({
         type: SET_NOTIFICATION,
         payload: {
-          message: `Welcome back ${res.firstName}!`,
+          message: `Welcome back${res.firstName ? ` ${res.firstName}` : ''}!`,
           type: 'success',
         },
       });

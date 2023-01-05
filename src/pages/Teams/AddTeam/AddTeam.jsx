@@ -15,6 +15,7 @@ const AddTeam = () => {
   const addTeam = () => {
     if (name.trim().length > 0) {
       dispatch(createTeam(name));
+      navigate('/teams');
     } else {
       dispatch({
         type: SET_NOTIFICATION,
